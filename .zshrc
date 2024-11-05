@@ -84,6 +84,7 @@ function addtolastcommit() {
 autoload -Uz compinit && compinit
 export BAT_THEME=Material-Theme-Palenight
 setopt NO_CASE_GLOB
+bindkey -v
 if [ -f "$HOME/.zshrc.dmm" ]; then
     source "$HOME/.zshrc.dmm"
 fi
