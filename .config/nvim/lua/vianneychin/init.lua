@@ -1,5 +1,6 @@
-require("vianneychin.set")
 require("vianneychin.remap")
+require("vianneychin.set")
+require("vianneychin.lazy_init")
 
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0

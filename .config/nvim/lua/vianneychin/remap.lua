@@ -29,8 +29,6 @@ vim.keymap.set("n", "Q", "<nop>")
 
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
--- Reloads nivm configuration
-vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
-end)
+vim.api.nvim_create_user_command("L", "Lazy", {})
+vim.api.nvim_create_user_command("M", "Mason", {})
 

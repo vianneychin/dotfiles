@@ -21,5 +21,5 @@ vim.opt.scrolloff = 8 -- Keeps at least 8 lines of context above and below the c
 -- vim.opt.signcolumn = "yes" -- Always shows the sign column to the left of the line numbers
 
 vim.opt.updatetime = 50 -- Delay in milliseconds for Neovim to save the swap file
-vim.opt.colorcolumn = "80"
+-- vim.opt.colorcolumn = "80"
 
