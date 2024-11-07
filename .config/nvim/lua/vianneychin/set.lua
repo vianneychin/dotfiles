@@ -22,4 +22,7 @@ vim.opt.scrolloff = 8 -- Keeps at least 8 lines of context above and below the c
 
 vim.opt.updatetime = 50 -- Delay in milliseconds for Neovim to save the swap file
 -- vim.opt.colorcolumn = "80"
-
+--
+vim.opt.foldmethod="expr"
+vim.opt.foldexpr="nvim_treesitter#foldexpr()"
+vim.opt.foldenable = false
