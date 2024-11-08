@@ -94,7 +94,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
         -- vim.keymap.set("n", "<leader>F", search_word_in_current_working_dir,
         --     { noremap = true, silent = true, desc = "Search with Telescope" })
         vim.keymap.set('n', '<leader>p', builtin.find_files, { desc = '[S]earch [F]iles' })
-        vim.keymap.set('n', '<leader>F', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+        vim.keymap.set('n', '<leader>F', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+        -- vim.keymap.set('n', '<leader>F', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+
 
         vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
         vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })

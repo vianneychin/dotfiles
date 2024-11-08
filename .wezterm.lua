@@ -14,4 +14,13 @@ config.window_padding = {
     bottom = 0
 }
 
+config.color_scheme = "Catppuccin Mocha"
+config.keys = {
+    {
+        key = 'd',
+        mods = 'CTRL|SHIFT',
+        action = wezterm.action.ActivateCopyMode
+    }
+}
+
 return config

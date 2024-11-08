@@ -1,7 +1,12 @@
 vim.g.mapleader = " "
 
 -- Opens netrw file tree
-vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>e", vim.cmd.Rexplore)
+vim.keymap.set("n", "<leader>1", "1gt")
+vim.keymap.set("n", "<leader>2", "2gt")
+vim.keymap.set("n", "<leader>3", "3gt")
+vim.keymap.set("n", "<leader>4", "4gt")
+vim.keymap.set("n", "<leader>5", "5gt")
 
 -- Go half a page up and down and center screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")

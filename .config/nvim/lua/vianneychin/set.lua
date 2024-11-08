@@ -26,3 +26,5 @@ vim.opt.updatetime = 50 -- Delay in milliseconds for Neovim to save the swap fil
 vim.opt.foldmethod="expr"
 vim.opt.foldexpr="nvim_treesitter#foldexpr()"
 vim.opt.foldenable = false
+
+vim.o.tabline = '%t'
