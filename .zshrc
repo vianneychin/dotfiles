@@ -12,6 +12,13 @@ source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 
 # ---------------------------------------------------------------------------------------------
+#
+# FZF SHELL INTEGRATAION
+# ---------------------------------------------------------------------------------------------
+source <(fzf --zsh)
+
+
+# ---------------------------------------------------------------------------------------------
 # DOTFILES VERSION CONTROL VIA GIT
 # ---------------------------------------------------------------------------------------------
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
@@ -88,3 +95,8 @@ bindkey -v
 if [ -f "$HOME/.zshrc.dmm" ]; then
     source "$HOME/.zshrc.dmm"
 fi
+
+function fzf_vim_project_top_level_directories() {
+    cd $HOME/Projects
+    find . -type d -maxdepth 2 | fzf | xargs nvim -o
+}

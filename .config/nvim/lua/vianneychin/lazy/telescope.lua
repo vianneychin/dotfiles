@@ -57,14 +57,14 @@ return { -- Fuzzy Finder (files, lsp, etc)
                 results_title = false,
                 prompt_title = false,
                 mappings = {
-                    i = {
-                        ["<Tab>"] = require('telescope.actions').move_selection_previous,
-                        ["<S-Tab>"] = require('telescope.actions').move_selection_next
-                    },
-                    n = {
-                        ["<Tab>"] = require('telescope.actions').move_selection_previous,
-                        ["<S-Tab>"] = require('telescope.actions').move_selection_next
-                    }
+                    -- i = {
+                    --     ["<Tab>"] = require('telescope.actions').move_selection_previous,
+                    --     ["<S-Tab>"] = require('telescope.actions').move_selection_next
+                    -- },
+                    -- n = {
+                    --     ["<Tab>"] = require('telescope.actions').move_selection_previous,
+                    --     ["<S-Tab>"] = require('telescope.actions').move_selection_next
+                    -- }
                 },
             },
             -- pickers = {}
@@ -94,10 +94,20 @@ return { -- Fuzzy Finder (files, lsp, etc)
         -- vim.keymap.set("n", "<leader>F", search_word_in_current_working_dir,
         --     { noremap = true, silent = true, desc = "Search with Telescope" })
         vim.keymap.set('n', '<leader>p', builtin.find_files, { desc = '[S]earch [F]iles' })
-        vim.keymap.set('n', '<leader>F', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-        -- vim.keymap.set('n', '<leader>F', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+        -- vim.keymap.set('n', '<leader>F', builtin.live_grep, { desc = '[S]earch by [G]rep' })
 
+        vim.keymap.set('n', '<leader>F', function()
+            require('telescope.builtin').live_grep({
+                prompt_title = "Find in Project",
+                cwd = vim.fn.getcwd(),
+                additional_args = function(opts)
+                    return { "--hidden", "--no-ignore" } -- Searches hidden files and ignores .gitignore
+                end,
+            })
+        end, { desc = '[S]earch [F]ind in Project' })
 
+        -- vim.keymap.set('n', '<leader>o', builtin.lsp_document_symbol, { desc = "Seach by function / symbol" })
+        vim.keymap.set('n', '<leader>o', builtin.lsp_document_symbols, { desc = '[S]earch [H]elp' })
         vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
         vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
         vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })

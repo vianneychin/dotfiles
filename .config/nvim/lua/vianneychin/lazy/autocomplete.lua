@@ -48,9 +48,9 @@ return {
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),
 
                     -- Enter to select completion
-                    ['<CR>'] = cmp.mapping.confirm { select = true },
-                    ['<Tab>'] = cmp.mapping.select_next_item(),
-                    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+                    ['<C-y>'] = cmp.mapping.confirm { select = true },
+                    ['<C-n>'] = cmp.mapping.select_next_item(),
+                    ['<C-p'] = cmp.mapping.select_prev_item(),
 
                     -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
                     --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps

@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 
 -- Opens netrw file tree
-vim.keymap.set("n", "<leader>e", vim.cmd.Rexplore)
+vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>1", "1gt")
 vim.keymap.set("n", "<leader>2", "2gt")
 vim.keymap.set("n", "<leader>3", "3gt")
@@ -33,8 +33,9 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "Q", "<nop>")
 
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+vim.keymap.set("n", "gp", vim.diagnostic.open_float)
+vim.keymap.set("n", "gP", vim.lsp.buf.hover)
 
-vim.keymap.set("n", "gp", vim.diagnostic.open_float);
 
 vim.api.nvim_create_user_command("L", "Lazy", {})
 vim.api.nvim_create_user_command("M", "Mason", {})
