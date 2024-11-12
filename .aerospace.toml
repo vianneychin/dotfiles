@@ -81,12 +81,12 @@ alt-shift-c = 'reload-config'
 alt-r = 'mode resize'
 
 [[on-window-detected]]
-if.app-id = 'com.googlecode.iterm2'
+if.app-id = 'de.beyondco.tinkerwell'
 run = "move-node-to-workspace 0"
 
 [[on-window-detected]]
-if.app-id = 'de.beyondco.tinkerwell'
-run = "move-node-to-workspace 0"
+if.app-id = 'com.github.wez.wezterm'
+run = "move-node-to-workspace 1"
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.VSCode'

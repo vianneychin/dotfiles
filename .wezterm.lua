@@ -18,13 +18,13 @@ return {
             mods = 'CTRL|SHIFT',
             action = wezterm.action.ActivateCopyMode
         },
-        {
-            key = "p",
-            mods = "CTRL",
-            action = wezterm.action {
-                SendString = 'find $HOME/Projects/ -type d -maxdepth 2 | fzf | xargs nvim -o\n'
-            }
-        },
+        -- {
+        --     key = "p",
+        --     mods = "CTRL",
+        --     action = wezterm.action {
+        --         SendString = 'find $HOME/Projects/ -type d -maxdepth 2 | fzf | xargs nvim -o\n'
+        --     }
+        -- },
     },
     mouse_bindings = {
         -- Ctrl-click will open the link under the mouse cursor

@@ -54,10 +54,10 @@ alias c="clear"
 alias vim="nvim"
 alias vi="nvim"
 alias nvim-config="nvim ~/.config/nvim/init.lua"
-alias ld-up="(cd ~/Dev/laradock;docker-compose up -d nginx mysql redis)"
-alias ld-down="(cd ~/Dev/laradock;docker-compose down)"
-alias ld-ssh="(cd ~/Dev/laradock;docker-compose exec workspace bash)"
-alias ld-redis-cli="(cd ~/Dev/laradock;docker-compose run redis redis-cli -h redis)"
+alias ld-up="(cd ~/Projects/laradock;docker-compose up -d nginx mysql redis)"
+alias ld-down="(cd ~/Projects/laradock;docker-compose down)"
+alias ld-ssh="(cd ~/Projects/laradock;docker-compose exec workspace bash)"
+alias ld-redis-cli="(cd ~/Projects/laradock;docker-compose run redis redis-cli -h redis)"
 
 
 
