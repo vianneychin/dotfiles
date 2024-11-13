@@ -94,10 +94,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
         -- vim.keymap.set("n", "<leader>F", search_word_in_current_working_dir,
         --     { noremap = true, silent = true, desc = "Search with Telescope" })
         vim.keymap.set('n', '<leader>p', builtin.find_files, { desc = '[S]earch [F]iles' })
-        -- vim.keymap.set('n', '<leader>F', builtin.live_grep, { desc = '[S]earch by [G]rep' })
 
         vim.keymap.set('n', '<leader>F', function()
-            require('telescope.builtin').live_grep({
+            builtin.live_grep({
                 prompt_title = "Find in Project",
                 cwd = vim.fn.getcwd(),
                 additional_args = function(opts)
