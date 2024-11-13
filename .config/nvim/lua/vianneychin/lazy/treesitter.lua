@@ -4,6 +4,10 @@ return {
     main = "nvim-treesitter.configs",
     opts = {
         ensure_installed = {
+            'vim',
+            'vimdoc',
+            'markdown',
+            'markdown_inline',
             'lua',
             'bash',
             'javascript',
