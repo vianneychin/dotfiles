@@ -74,6 +74,8 @@ zstyle ':completion:*' menu select
 # PATH & ENVIRONMENT VARIABLES
 # ---------------------------------------------------------------------------------------------
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+export PATH="$PATH:$HOME/go/bin"
+
 
 
 
@@ -95,10 +97,6 @@ bindkey -v
 if [ -f "$HOME/.zshrc.dmm" ]; then
     source "$HOME/.zshrc.dmm"
 fi
-
-# Ideally I keybind this function so that I would call it on whatever my Projects directory is
-# and it would automatically open neovim with that project
-# function fzf_vim_project_top_level_directories() {
-#     cd $HOME/Projects
-#     find . -type d -maxdepth 2 | fzf | xargs nvim -o
-# }
+if [ -f "$HOME/.zshrc.wowsims" ]; then
+    source "$HOME/.zshrc.wowsims"
+fi

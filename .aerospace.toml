@@ -101,7 +101,7 @@ run = "move-node-to-workspace 3"
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
-run = "move-node-to-workspace 9"
+run = "move-node-to-workspace 8"
 
 [[on-window-detected]]
 if.app-id = 'com.hnc.Discord'
