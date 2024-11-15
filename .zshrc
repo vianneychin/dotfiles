@@ -96,7 +96,9 @@ if [ -f "$HOME/.zshrc.dmm" ]; then
     source "$HOME/.zshrc.dmm"
 fi
 
-function fzf_vim_project_top_level_directories() {
-    cd $HOME/Projects
-    find . -type d -maxdepth 2 | fzf | xargs nvim -o
-}
+# Ideally I keybind this function so that I would call it on whatever my Projects directory is
+# and it would automatically open neovim with that project
+# function fzf_vim_project_top_level_directories() {
+#     cd $HOME/Projects
+#     find . -type d -maxdepth 2 | fzf | xargs nvim -o
+# }
