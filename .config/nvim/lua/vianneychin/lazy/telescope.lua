@@ -95,15 +95,16 @@ return { -- Fuzzy Finder (files, lsp, etc)
         --     { noremap = true, silent = true, desc = "Search with Telescope" })
         vim.keymap.set('n', '<leader>p', builtin.find_files, { desc = '[S]earch [F]iles' })
 
-        vim.keymap.set('n', '<leader>F', function()
-            builtin.live_grep({
-                prompt_title = "Find in Project",
-                cwd = vim.fn.getcwd(),
-                additional_args = function(opts)
-                    return { "--hidden", "--no-ignore" } -- Searches hidden files and ignores .gitignore
-                end,
-            })
-        end, { desc = '[S]earch [F]ind in Project' })
+        -- nvim/spectre is better, fight me
+        -- vim.keymap.set('n', '<leader>F', function()
+        --     builtin.live_grep({
+        --         prompt_title = "Find in Project",
+        --         cwd = vim.fn.getcwd(),
+        --         additional_args = function(opts)
+        --             return { "--hidden", "--no-ignore" } -- Searches hidden files and ignores .gitignore
+        --         end,
+        --     })
+        -- end, { desc = '[S]earch [F]ind in Project' })
 
         vim.keymap.set('n', '<leader>so', builtin.lsp_document_symbols, { desc = '[S]earch Symb[o]ls / Functions' })
         vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
