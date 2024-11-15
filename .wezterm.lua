@@ -22,7 +22,7 @@ return {
             key = "-",
             mods = "CTRL",
             action = wezterm.action {
-                SendString = 'find $HOME/Projects/ -type d -maxdepth 2 | fzf | xargs nvim -o\n'
+                SendString = 'cd "$(find $HOME/Projects/ -type d -maxdepth 2 | fzf)" && nvim -o .\n'
             }
         },
     },
