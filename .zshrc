@@ -16,6 +16,9 @@ source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 # FZF SHELL INTEGRATAION
 # ---------------------------------------------------------------------------------------------
 source <(fzf --zsh)
+# Unbind Ctrl+T from fzf
+bindkey -r '^T'
+
 
 
 # ---------------------------------------------------------------------------------------------
@@ -51,9 +54,8 @@ alias g='git'
 alias hosts='code /private/etc/hosts'
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 alias c="clear"
-alias vim="nvim"
-alias vi="nvim"
-alias nvim-config="nvim ~/.config/nvim/init.lua"
+alias vim="nvim" # xd
+alias vi="nvim" # xd
 alias ld-up="(cd ~/Projects/laradock;docker-compose up -d nginx mysql redis)"
 alias ld-down="(cd ~/Projects/laradock;docker-compose down)"
 alias ld-ssh="(cd ~/Projects/laradock;docker-compose exec workspace bash)"
@@ -71,21 +73,43 @@ zstyle ':completion:*' menu select
 
 
 # ---------------------------------------------------------------------------------------------
-# PATH & ENVIRONMENT VARIABLES
-# ---------------------------------------------------------------------------------------------
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-export PATH="$PATH:$HOME/go/bin"
-
-
-
-
-# ---------------------------------------------------------------------------------------------
 # CUSTOM FUNCTIONS
 # ---------------------------------------------------------------------------------------------
+function pushDotFiles() {
+    dotfiles add -u
+    dotfiles commit -m "Update dotfiles"
+    dotfiles push origin main
+}
+
 function addtolastcommit() {
     git add .
     git commit --amend --no-edit
 }
+
+function addToPath() {
+    if [[ "$PATH" != *"$1"* ]]; then
+        export PATH=$PATH:$1
+    fi
+}
+
+function addToPathFront() {
+    if [[ "$PATH" != *"$1"* ]]; then
+        export PATH=$1:$PATH
+    fi
+}
+
+
+
+
+# ---------------------------------------------------------------------------------------------
+# PATH & ENVIRONMENT VARIABLES
+# ---------------------------------------------------------------------------------------------
+addToPath $HOME/go/bin
+addToPath ":/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+addToPathFront $HOME/.local/scripts
+
+
+
 
 # ---------------------------------------------------------------------------------------------
 # MISC SETTINGS
@@ -100,3 +124,7 @@ fi
 if [ -f "$HOME/.zshrc.wowsims" ]; then
     source "$HOME/.zshrc.wowsims"
 fi
+
+bindkey -s ^t "tmux-sessionizer\n"
+# Source the file since the cd $target won't persists in a subshell script
+bindkey -s ^f "source ~/.local/scripts/nvim-quick-open-folder\n"

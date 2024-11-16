@@ -3,7 +3,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     event = 'VimEnter',
     branch = '0.1.x',
     dependencies = {
-        'nvim-lua/plenary.nvim',
+        { 'nvim-lua/plenary.nvim' },
         { -- If encountering errors, see telescope-fzf-native README for installation instructions
             'nvim-telescope/telescope-fzf-native.nvim',
 
@@ -17,10 +17,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
                 return vim.fn.executable 'make' == 1
             end,
         },
-        { 'nvim-telescope/telescope-ui-select.nvim' },
-
         -- Useful for getting pretty icons, but requires a Nerd Font.
-        { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+        { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
         -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -42,30 +40,18 @@ return { -- Fuzzy Finder (files, lsp, etc)
         -- Telescope picker. This is really useful to discover what Telescope can
         -- do as well as how to actually do it!
 
+
         -- [[ Configure Telescope ]]
         -- See `:help telescope` and `:help telescope.setup()`
         require('telescope').setup {
             -- You can put your default mappings / updates / etc. in here
             --  All the info you're looking for is in `:help telescope.setup()`
-            --
             defaults = {
-                -- mappings = {
-                --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-                -- },
                 layout_strategy = "vertical",
                 sorting_strategy = "descending",
                 results_title = false,
                 prompt_title = false,
-                mappings = {
-                    -- i = {
-                    --     ["<Tab>"] = require('telescope.actions').move_selection_previous,
-                    --     ["<S-Tab>"] = require('telescope.actions').move_selection_next
-                    -- },
-                    -- n = {
-                    --     ["<Tab>"] = require('telescope.actions').move_selection_previous,
-                    --     ["<S-Tab>"] = require('telescope.actions').move_selection_next
-                    -- }
-                },
+                mappings = {},
             },
             -- pickers = {}
             extensions = {
@@ -82,29 +68,20 @@ return { -- Fuzzy Finder (files, lsp, etc)
         -- See `:help telescope.builtin`
         local builtin = require 'telescope.builtin'
 
-        -- local function search_word_in_current_working_dir()
-        --     local input_string = vim.fn.input("Search for > ")
-        --     if input_string == '' then
-        --         return
-        --     end
-        --     require("telescope.builtin").grep_string({
-        --         search = input_string
-        --     })
-        -- end
-        -- vim.keymap.set("n", "<leader>F", search_word_in_current_working_dir,
-        --     { noremap = true, silent = true, desc = "Search with Telescope" })
-        vim.keymap.set('n', '<leader>p', builtin.find_files, { desc = '[S]earch [F]iles' })
+        vim.keymap.set('n', '<leader>p', function()
+            require('telescope.builtin').find_files({ hidden = true })
+        end, { desc = '[S]earch [F]iles' })
 
-        -- nvim/spectre is better, fight me
-        -- vim.keymap.set('n', '<leader>F', function()
-        --     builtin.live_grep({
-        --         prompt_title = "Find in Project",
-        --         cwd = vim.fn.getcwd(),
-        --         additional_args = function(opts)
-        --             return { "--hidden", "--no-ignore" } -- Searches hidden files and ignores .gitignore
-        --         end,
-        --     })
-        -- end, { desc = '[S]earch [F]ind in Project' })
+        vim.keymap.set('n', '<leader>ft', function()
+            builtin.live_grep({
+                prompt_title = "Find in Project",
+                cwd = vim.fn.getcwd(),
+                additional_args = function()
+                    -- Searches hidden files and ignores .gitignore
+                    return { "--hidden" }
+                end,
+            })
+        end, { desc = '[S]earch [F]ind in Project' })
 
         vim.keymap.set('n', '<leader>so', builtin.lsp_document_symbols, { desc = '[S]earch Symb[o]ls / Functions' })
         vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })

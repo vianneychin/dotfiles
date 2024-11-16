@@ -36,6 +36,13 @@ vim.keymap.set("n", "<C-h>", "<C-w>h", { silent = true })
 vim.keymap.set("n", "<C-j>", "<C-w>j", { silent = true })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { silent = true })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { silent = true })
+--
+-- Resize splits with Ctrl + Arrow keys
+vim.keymap.set("n", "<C-Up>", "<Cmd>resize +5<CR>", { silent = true, desc = "Increase height" })
+vim.keymap.set("n", "<C-Down>", "<Cmd>resize -5<CR>", { silent = true, desc = "Decrease height" })
+vim.keymap.set("n", "<C-Left>", "<Cmd>vertical resize -5<CR>", { silent = true, desc = "Decrease width" })
+vim.keymap.set("n", "<C-Right>", "<Cmd>vertical resize +5<CR>", { silent = true, desc = "Increase width" })
+
 
 
 

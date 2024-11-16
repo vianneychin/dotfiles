@@ -11,6 +11,7 @@ return {
         top = 0,
         bottom = 0
     },
+    use_ime = false,
     color_scheme = "Catppuccin Mocha",
     keys = {
         {
