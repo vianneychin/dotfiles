@@ -5,7 +5,7 @@ vim.opt.tabstop = 4 --  Number of spaces per tab character
 vim.opt.softtabstop = 4 --  Number of spaces to use when pressing the <Tab> key
 vim.opt.shiftwidth = 4 -- Number of spaces for auto indentation
 vim.opt.expandtab = true -- Converts tab to spaces
-
+vim.opt.autoindent = true
 vim.opt.smartindent = true -- Smart indentation
 vim.opt.wrap = false -- Disables line wrapping horizontally
 

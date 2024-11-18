@@ -1,5 +1,17 @@
 local augroup = vim.api.nvim_create_augroup("lsp_blade_workaround", { clear = true })
 
+vim.api.nvim_create_augroup("HighlightYank", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+    group = "HighlightYank",
+    pattern = "*",
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = "IncSearch",
+            timeout = 200,
+        })
+    end,
+})
+
 -- Autocommand to temporarily change 'blade' filetype to 'php' when opening for LSP server activation
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     group = augroup,
@@ -36,5 +48,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end)
     end,
 })
-
-

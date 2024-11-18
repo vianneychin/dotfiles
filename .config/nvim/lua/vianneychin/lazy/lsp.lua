@@ -157,6 +157,8 @@ return {
 
                 rust_analyzer = {},
 
+                jsonls = {},
+
                 ts_ls = {},
 
                 ['html-lsp'] = {},

@@ -2,6 +2,7 @@
 local wezterm = require("wezterm")
 
 return {
+    max_fps = 144,
     font_size = 16,
     enable_tab_bar = false,
     window_decorations = "RESIZE",
@@ -13,6 +14,9 @@ return {
     },
     use_ime = false,
     color_scheme = "Catppuccin Mocha",
+    colors = {
+        background = "#14141c"
+    },
     keys = {
         {
             key = 'd',
