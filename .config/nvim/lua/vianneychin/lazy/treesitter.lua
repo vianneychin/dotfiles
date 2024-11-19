@@ -58,7 +58,9 @@ return {
     {
         "nvim-treesitter/nvim-treesitter-context",
         config = function()
-            require 'treesitter-context'.setup{}
+            require 'treesitter-context'.setup {
+                max_lines = 7,
+            }
             vim.api.nvim_set_hl(0, "TreesitterContext", { underline = false })
             vim.api.nvim_set_hl(0, "TreesitterContextBottom", { underline = false })
             vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { underline = false })

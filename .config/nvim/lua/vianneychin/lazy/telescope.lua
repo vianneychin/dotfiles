@@ -20,43 +20,64 @@ return { -- Fuzzy Finder (files, lsp, etc)
         -- Useful for getting pretty icons, but requires a Nerd Font.
         { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
+    keys = {
+        {
+            "<leader>ft",
+            function()
+                require("telescope.builtin").live_grep()
+            end
+        }
+    },
     config = function()
-        -- Telescope is a fuzzy finder that comes with a lot of different things that
-        -- it can fuzzy find! It's more than just a "file finder", it can search
-        -- many different aspects of Neovim, your workspace, LSP, and more!
-        --
-        -- The easiest way to use Telescope, is to start by doing something like:
-        --  :Telescope help_tags
-        --
-        -- After running this command, a window will open up and you're able to
-        -- type in the prompt window. You'll see a list of `help_tags` options and
-        -- a corresponding preview of the help.
-        --
-        -- Two important keymaps to use while in Telescope are:
-        --  - Insert mode: <c-/>
-        --  - Normal mode: ?
-        --
-        -- This opens a window that shows you all of the keymaps for the current
-        -- Telescope picker. This is really useful to discover what Telescope can
-        -- do as well as how to actually do it!
-
-
-        -- [[ Configure Telescope ]]
-        -- See `:help telescope` and `:help telescope.setup()`
         require('telescope').setup {
+            file_ignore_patterns = { "%.git/." },
             -- You can put your default mappings / updates / etc. in here
             --  All the info you're looking for is in `:help telescope.setup()`
             defaults = {
-                layout_strategy = "vertical",
-                sorting_strategy = "descending",
+                path_display = {
+                    "filename_first",
+                },
                 results_title = false,
                 prompt_title = false,
+                sorting_strategy = "ascending",
+                select_strategy = "reset",
+                set_env = { ["COLORTERM"] = "truecolor" },
+                layout_config = {
+                    preview_cutoff = 120,
+                    prompt_position = "top"
+                },
                 mappings = {},
+            },
+            pickers = {
+                find_files = {
+                    previewer = false,
+                    layout_config = {
+                        height = 0.4,
+                        prompt_position = 'top',
+                        preview_cutoff = 120
+                    }
+                },
+                live_grep = {
+                    only_sort_text = true,
+                }
             },
             -- pickers = {}
             extensions = {
+                fzf = {
+                    fuzzy = true,
+                    override_generic_sorter = true,
+                    override_file_sorter = true,
+                    case_mode = 'smart_case'
+                },
                 ['ui-select'] = {
-                    require('telescope.themes').get_dropdown(),
+                    require('telescope.themes').get_dropdown({
+                        sorting_strategy = "ascending",
+                        layout_config = {
+                            width = 0.5,
+                            height = 0.4,
+                            preview_width = 0.6
+                        }
+                    }),
                 },
             },
         }
@@ -72,16 +93,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
             require('telescope.builtin').find_files({ hidden = true })
         end, { desc = '[S]earch [F]iles' })
 
-        vim.keymap.set('n', '<leader>ft', function()
-            builtin.live_grep({
-                prompt_title = "Find in Project",
-                cwd = vim.fn.getcwd(),
-                additional_args = function()
-                    -- Searches hidden files and ignores .gitignore
-                    return { "--hidden" }
-                end,
-            })
-        end, { desc = '[S]earch [F]ind in Project' })
 
         vim.keymap.set('n', '<leader>so', builtin.lsp_document_symbols, { desc = '[S]earch Symb[o]ls / Functions' })
         vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
