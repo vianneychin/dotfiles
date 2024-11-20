@@ -14,15 +14,14 @@ return { -- Fuzzy Finder (files, lsp, etc)
             -- `cond` is a condition used to determine whether this plugin should be
             -- installed and loaded.
             cond = function()
-                return vim.fn.executable 'make' == 1
-            end,
+                return vim.fn.executable 'make' == 1 end,
         },
         -- Useful for getting pretty icons, but requires a Nerd Font.
         { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     keys = {
         {
-            "<leader>ft",
+            "<leader>F",
             function()
                 require("telescope.builtin").live_grep()
             end
@@ -30,7 +29,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     },
     config = function()
         require('telescope').setup {
-            file_ignore_patterns = { "%.git/." },
+            file_ignore_patterns = { "%.git/.", "%public/vendor/horizon/." },
             -- You can put your default mappings / updates / etc. in here
             --  All the info you're looking for is in `:help telescope.setup()`
             defaults = {
@@ -47,6 +46,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
                     prompt_position = "top"
                 },
                 mappings = {},
+                preview = {
+                    treesitter = false
+                }
             },
             pickers = {
                 find_files = {

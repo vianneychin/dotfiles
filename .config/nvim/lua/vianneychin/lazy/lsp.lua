@@ -153,7 +153,9 @@ return {
                 intelephense = {},
                 phpstan = {},
                 --  pint = {},
-                ['blade-formatter'] = {},
+                ['blade-formatter'] = {
+                    filetypes = { "blade" }
+                },
 
                 rust_analyzer = {},
 

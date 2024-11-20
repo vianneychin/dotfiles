@@ -39,7 +39,7 @@ return {
                 right_trunc_marker = '',
                 max_name_length = 18,
                 max_prefix_length = 15,
-                truncate_names = true,
+                truncate_names = false,
                 color_icons = false,
                 separator_style = "thin",
                 enforce_regular_tabs = false,
