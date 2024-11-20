@@ -10,7 +10,7 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 -- Disable keys
 vim.keymap.set("n", "Q", "<nop>")
 
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+-- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 vim.keymap.set("n", "gp", vim.diagnostic.open_float)
 vim.keymap.set("n", "gP", vim.lsp.buf.hover)
 
@@ -25,14 +25,18 @@ vim.keymap.set("n", "<C-Up>", "<Cmd>resize +2<CR>", { silent = true, desc = "Inc
 vim.keymap.set("n", "<C-Down>", "<Cmd>resize -2<CR>", { silent = true, desc = "Decrease pane height." })
 vim.keymap.set("n", "<C-Left>", "<Cmd>vertical resize -2<CR>", { silent = true, desc = "Decrease pane width." })
 vim.keymap.set("n", "<C-Right>", "<Cmd>vertical resize +2<CR>", { silent = true, desc = "Increase pane width." })
-vim.keymap.set('n', '<leader>\\', '<C-w>v', { desc = 'Split window vertically' })
-vim.keymap.set('n', '<leader>|', '<C-w>s', { desc = 'Split window horizontally' })
-vim.keymap.set('n', '<leader>b', ':ls<CR>:b ', { noremap = true, silent = false, desc = 'List Buffers and switch.' });
-vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d", { silent = false, desc = 'Delete without overwriting register.' })
+vim.keymap.set("n", "<leader>\\", "<C-w>v", { desc = "Split window vertically" })
+vim.keymap.set("n", "<leader>|", "<C-w>s", { desc = "Split window horizontally" })
+vim.keymap.set("n", "<leader>b", ":ls<CR>:b ", { noremap = true, silent = false, desc = "List Buffers and switch." })
+vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { silent = false, desc = "Delete without overwriting register." })
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { silent = false, desc = "Yank to system clipboard." })
 vim.keymap.set("n", "<leader>Y", [["+Y]], { silent = false, desc = "Yank to system clipboard." })
-vim.keymap.set("x", "<leader>p", [["_dP]], { silent = false, desc = "Paste over visually selected text without overwriting register." })
-
+vim.keymap.set(
+	"x",
+	"<leader>p",
+	[["_dP]],
+	{ silent = false, desc = "Paste over visually selected text without overwriting register." }
+)
 
 vim.api.nvim_create_user_command("L", "Lazy", {})
 vim.api.nvim_create_user_command("M", "Mason", {})

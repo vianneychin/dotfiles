@@ -3,9 +3,9 @@ return {
     version = '*',
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
-        vim.keymap.set("n", "<leader>H", "<Cmd>BufferLineCyclePrev<CR>",
+        vim.keymap.set("n", "<leader>J", "<Cmd>BufferLineCyclePrev<CR>",
             { desc = "Go to previous buffer tab", silent = true })
-        vim.keymap.set("n", "<leader>L", "<Cmd>BufferLineCycleNext<CR>",
+        vim.keymap.set("n", "<leader>K", "<Cmd>BufferLineCycleNext<CR>",
             { desc = "Go to next buffer tab", silent = true })
         vim.keymap.set("n", "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", { silent = true })
         vim.keymap.set("n", "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", { silent = true })
