@@ -1,3 +1,6 @@
+-- For additional defaults, i.e., setting a hotkey to toggle formatting
+-- https://github.com/stevearc/conform.nvim/blob/master/doc/recipes.md#lazy-loading-with-lazynvim
+
 return {
 	"stevearc/conform.nvim",
 	event = { "BufWritePre" },
