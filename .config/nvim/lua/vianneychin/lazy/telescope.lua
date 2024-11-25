@@ -60,6 +60,14 @@ return { -- Fuzzy Finder (files, lsp, etc)
 						preview_cutoff = 120,
 					},
 				},
+				buffers = {
+					previewer = false,
+					layout_config = {
+						height = 0.4,
+						prompt_position = "top",
+						preview_cutoff = 120,
+					},
+				},
 				live_grep = {
 					only_sort_text = true,
 				},
@@ -104,7 +112,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 		vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 		vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-		-- vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+		vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "[ ] Find existing buffers" })
 
 		-- Slightly advanced example of overriding default behavior and theme
 		vim.keymap.set("n", "<leader>/", function()

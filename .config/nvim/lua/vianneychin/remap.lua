@@ -27,7 +27,7 @@ vim.keymap.set("n", "<C-Left>", "<Cmd>vertical resize -2<CR>", { silent = true, 
 vim.keymap.set("n", "<C-Right>", "<Cmd>vertical resize +2<CR>", { silent = true, desc = "Increase pane width." })
 vim.keymap.set("n", "<leader>\\", "<C-w>v", { desc = "Split window vertically" })
 vim.keymap.set("n", "<leader>|", "<C-w>s", { desc = "Split window horizontally" })
-vim.keymap.set("n", "<leader>b", ":ls<CR>:b ", { noremap = true, silent = false, desc = "List Buffers and switch." })
+-- vim.keymap.set("n", "<leader>b", ":ls<CR>:b ", { noremap = true, silent = false, desc = "List Buffers and switch." })
 vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { silent = false, desc = "Delete without overwriting register." })
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { silent = false, desc = "Yank to system clipboard." })
 vim.keymap.set("n", "<leader>Y", [["+Y]], { silent = false, desc = "Yank to system clipboard." })
@@ -37,6 +37,10 @@ vim.keymap.set(
 	[["_dP]],
 	{ silent = false, desc = "Paste over visually selected text without overwriting register." }
 )
+vim.keymap.set("n", "<leader>q", function()
+	local bufnum = vim.api.nvim_get_current_buf()
+	vim.cmd("bdelete " .. bufnum)
+end, { silent = true })
 
 vim.api.nvim_create_user_command("L", "Lazy", {})
 vim.api.nvim_create_user_command("M", "Mason", {})
