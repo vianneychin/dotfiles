@@ -15,6 +15,8 @@ vim.keymap.set("n", "gp", vim.diagnostic.open_float)
 vim.keymap.set("n", "gP", vim.lsp.buf.hover)
 
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { desc = "Open netrw." })
+vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Move cursor back and center screen" })
+vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Move cursor forward and center screen" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move cursor half a page down and center screen" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move cursor half a page up and center screen" })
 vim.keymap.set("n", "<C-h>", "<C-w>h", { silent = true, desc = "Switch to left pane." })

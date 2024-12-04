@@ -168,6 +168,8 @@ return {
 				["html-lsp"] = {},
 				-- This is currently loading in every file, fix before activation
 				-- ['tailwindcss-language-server'] = {},
+				--
+				cssls = {},
 
 				lua_ls = {
 					settings = {
