@@ -75,10 +75,11 @@ zstyle ':completion:*' menu select
 # ---------------------------------------------------------------------------------------------
 # CUSTOM FUNCTIONS
 # ---------------------------------------------------------------------------------------------
-function pushDotFiles() {
-    dotfiles add -u
-    dotfiles commit -m "Update dotfiles"
-    dotfiles push origin main
+function updateDotFiles() {
+    dotfiles add -u;
+    dotfiles add ~/.config/nvim;
+    dotfiles commit -m "Update dotfiles";
+    dotfiles push origin main;
 }
 
 function addtolastcommit() {
