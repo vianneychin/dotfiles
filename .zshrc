@@ -129,5 +129,6 @@ if [ -f "$HOME/.zshrc.wowsims" ]; then
     source "$HOME/.zshrc.wowsims"
 fi
 
-bindkey -s ^t "tmux-sessionizer\n"
-bindkey -s ^f "source ~/.local/scripts/nvim-quick-open-folder\n"
+# Keybindings for running script files
+bindkey -s "^t" "tmux-sessionizer\n"
+bindkey -s "^f" "source ~/.local/scripts/nvim-quick-open-folder\n"
