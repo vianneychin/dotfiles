@@ -75,7 +75,7 @@ zstyle ':completion:*' menu select
 # ---------------------------------------------------------------------------------------------
 # CUSTOM FUNCTIONS
 # ---------------------------------------------------------------------------------------------
-function updateDotFiles() {
+function pushdotfiles() {
     dotfiles add -u;
     dotfiles add ~/.config/nvim;
     dotfiles commit -m "Update dotfiles";
@@ -107,7 +107,9 @@ function addToPathFront() {
 # ---------------------------------------------------------------------------------------------
 addToPath $HOME/go/bin
 addToPath ":/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+addToPath "/opt/homebrew/opt/ruby/bin:$PATH"
 addToPathFront $HOME/.local/scripts
+
 
 
 
@@ -119,6 +121,7 @@ autoload -Uz compinit && compinit
 export BAT_THEME=Material-Theme-Palenight
 setopt NO_CASE_GLOB
 bindkey -v
+
 if [ -f "$HOME/.zshrc.dmm" ]; then
     source "$HOME/.zshrc.dmm"
 fi
@@ -127,5 +130,4 @@ if [ -f "$HOME/.zshrc.wowsims" ]; then
 fi
 
 bindkey -s ^t "tmux-sessionizer\n"
-# Source the file since the cd $target won't persists in a subshell script
 bindkey -s ^f "source ~/.local/scripts/nvim-quick-open-folder\n"

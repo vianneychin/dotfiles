@@ -12,7 +12,7 @@ vim.opt.wrap = false -- Disables line wrapping horizontally
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir" -- Specifies the undo history
 vim.opt.undofile = true -- Enables persistent undo history even after closing nvim
 
-vim.opt.hlsearch = false -- Disables highlightning of search results
+vim.opt.hlsearch = true -- Disables highlightning of search results
 vim.opt.incsearch = true -- Enables incremental search which highlights matches as you type
 
 vim.opt.termguicolors = true -- The good color
@@ -37,3 +37,7 @@ vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 vim.o.cmdheight = 0
 
 vim.o.tabline = "%t"
+
+-- Set diff colors to blend with the background
+-- Set the diff separator to use spaces instead of "-"
+vim.o.fillchars = vim.o.fillchars .. ",diff: "

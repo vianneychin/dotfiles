@@ -59,6 +59,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 						prompt_position = "top",
 						preview_cutoff = 120,
 					},
+					find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
 				},
 				buffers = {
 					previewer = false,

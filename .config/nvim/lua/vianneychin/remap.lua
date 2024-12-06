@@ -43,6 +43,8 @@ vim.keymap.set("n", "<leader>q", function()
 	local bufnum = vim.api.nvim_get_current_buf()
 	vim.cmd("bdelete " .. bufnum)
 end, { silent = true })
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<C-c>", "<cmd>nohlsearch<CR>")
 
 vim.api.nvim_create_user_command("L", "Lazy", {})
 vim.api.nvim_create_user_command("M", "Mason", {})

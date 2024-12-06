@@ -36,3 +36,17 @@ vim.api.nvim_create_user_command("EnableFormatter", function()
 end, {
 	desc = "Re-enable autoformat-on-save",
 })
+
+vim.api.nvim_create_autocmd("VimEnter", {
+	group = vim.api.nvim_create_augroup("restore_session", { clear = true }),
+	callback = function()
+		if vim.fn.getcwd() ~= vim.env.HOME then
+			require("persistence").load()
+		end
+	end,
+	nested = true,
+})
+
+vim.api.nvim_create_autocmd("InsertEnter", { command = [[set norelativenumber]] })
+
+vim.api.nvim_create_autocmd("InsertLeave", { command = [[set relativenumber]] })
