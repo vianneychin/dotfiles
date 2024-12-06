@@ -82,6 +82,10 @@ function pushdotfiles() {
     dotfiles push origin main;
 }
 
+function pulldotfiles() {
+    dotfiles pull origin main
+}
+
 function addtolastcommit() {
     git add .
     git commit --amend --no-edit

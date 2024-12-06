@@ -10,6 +10,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+-- Default to formatter disabled
+vim.g.disable_autoformat = true -- Global variable to disable formatting by default
+vim.b.disable_autoformat = true -- Buffer-local variable to disable formatting by default
+
 require("conform").setup({
 	format_on_save = function(bufnr)
 		-- Disable with a global or buffer-local variable
