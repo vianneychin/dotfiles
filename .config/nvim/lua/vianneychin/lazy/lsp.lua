@@ -1,5 +1,23 @@
 return {
 	{
+		"luckasRanarison/tailwind-tools.nvim",
+		name = "tailwind-tools",
+		build = ":UpdateRemotePlugins",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-telescope/telescope.nvim", -- optional
+			"neovim/nvim-lspconfig", -- optional
+		},
+        opts = function()
+            ---@type TailwindTools.Option
+            return {
+                document_color = {
+                    enabled = false,
+                }
+            }
+        end
+	},
+	{
 		-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
 		-- used for completion, annotations and signatures of Neovim apis
 		"folke/lazydev.nvim",
@@ -166,9 +184,7 @@ return {
 				ts_ls = {},
 
 				["html-lsp"] = {},
-				-- This is currently loading in every file, fix before activation
-				-- ['tailwindcss-language-server'] = {},
-				--
+
 				cssls = {},
 
 				lua_ls = {

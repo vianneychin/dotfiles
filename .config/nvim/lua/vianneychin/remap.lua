@@ -45,6 +45,8 @@ vim.keymap.set("n", "<leader>q", function()
 end, { silent = true })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<C-c>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "q[", "<Cmd>cprev<CR>", { silent = true, desc = "Next item in the quickfix list." })
+vim.keymap.set("n", "q]", "<Cmd>cnext<CR>", { silent = true, desc = "Previous item in the quickfix list." })
 
 vim.api.nvim_create_user_command("L", "Lazy", {})
 vim.api.nvim_create_user_command("M", "Mason", {})

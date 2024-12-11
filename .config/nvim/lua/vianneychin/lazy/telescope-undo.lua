@@ -19,7 +19,6 @@ return {
 			undo = {
 				use_delta = true,
 			},
-			-- no other extensions here, they can have their own spec too
 		},
 	},
 	config = function(_, opts)
