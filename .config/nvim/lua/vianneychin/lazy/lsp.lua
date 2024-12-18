@@ -8,14 +8,14 @@ return {
 			"nvim-telescope/telescope.nvim", -- optional
 			"neovim/nvim-lspconfig", -- optional
 		},
-        opts = function()
-            ---@type TailwindTools.Option
-            return {
-                document_color = {
-                    enabled = false,
-                }
-            }
-        end
+		opts = function()
+			---@type TailwindTools.Option
+			return {
+				document_color = {
+					enabled = false,
+				},
+			}
+		end,
 	},
 	{
 		-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -38,8 +38,7 @@ return {
 			{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
-
-			-- Useful status updates for LSP.
+"saghen/blink.cmp",-- Useful status updates for LSP.
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 			{ "j-hui/fidget.nvim", opts = {} },
 
@@ -156,8 +155,9 @@ return {
 			--  By default, Neovim doesn't support everything that is in the LSP specification.
 			--  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
 			--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+			-- capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 			-- Enable the following language servers
 			--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -171,8 +171,8 @@ return {
 			local servers = {
 				-- See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				intelephense = {},
-                ['php-cs-fixer'] = {},
-                -- phpactor = {},
+				["php-cs-fixer"] = {},
+				-- phpactor = {},
 				-- phpstan = {},
 				--  pint = {},
 				["blade-formatter"] = {

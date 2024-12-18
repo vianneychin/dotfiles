@@ -20,14 +20,14 @@ return { -- Fuzzy Finder (files, lsp, etc)
 		-- Useful for getting pretty icons, but requires a Nerd Font.
 		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
 	},
-	keys = {
-		{
-			"<leader>F",
-			function()
-				require("telescope.builtin").live_grep()
-			end,
-		},
-	},
+	-- keys = {
+	-- 	{
+	-- 		"<leader>F",
+	-- 		function()
+	-- 			require("telescope.builtin").live_grep()
+	-- 		end,
+	-- 	},
+	-- },
 	config = function()
 		require("telescope").setup({
 			file_ignore_patterns = { ".git", "public/vendor/horizon" },
@@ -110,21 +110,18 @@ return { -- Fuzzy Finder (files, lsp, etc)
 		-- See `:help telescope.builtin`
 		local builtin = require("telescope.builtin")
 
-		vim.keymap.set("n", "<leader>p", function()
-			require("telescope.builtin").find_files()
-		end, { desc = "[S]earch [F]iles" })
+		-- vim.keymap.set("n", "<leader>p", function()
+		-- 	require("telescope.builtin").find_files()
+		-- end, { desc = "[S]earch [F]iles" })
 
-		vim.keymap.set("n", "<leader>so", builtin.lsp_document_symbols, { desc = "[S]earch Symb[o]ls / Functions" })
-		vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
-		vim.keymap.set("n", "<leader>ks", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
-		vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
-		vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+		-- vim.keymap.set("n", "<leader>so", builtin.lsp_document_symbols, { desc = "[S]earch Symb[o]ls / Functions" })
+		-- vim.keymap.set("n", "<leader>ks", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
 		vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 		vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 		vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-		vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "[ ] Find existing buffers" })
+		-- vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "[ ] Find existing buffers" })
 		local multi_ripgrep = require("vianneychin.custom.telescope-multi-ripgrep")
-		vim.keymap.set("n", "<space>F", multi_ripgrep)
+		-- vim.keymap.set("n", "<space>F", multi_ripgrep)
 
 		-- Slightly advanced example of overriding default behavior and theme
 		vim.keymap.set("n", "<leader>/", function()
