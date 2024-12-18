@@ -171,7 +171,9 @@ return {
 			local servers = {
 				-- See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				intelephense = {},
-				phpstan = {},
+                ['php-cs-fixer'] = {},
+                -- phpactor = {},
+				-- phpstan = {},
 				--  pint = {},
 				["blade-formatter"] = {
 					filetypes = { "blade" },

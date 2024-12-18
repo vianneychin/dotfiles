@@ -17,6 +17,7 @@ return {
                 'rust',
                 'php',
                 'php_only',
+                'phpdoc',
                 'nginx',
                 'json',
                 'html',

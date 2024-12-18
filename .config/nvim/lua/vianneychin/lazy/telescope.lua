@@ -35,7 +35,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
 			--  All the info you're looking for is in `:help telescope.setup()`
 			defaults = {
 				path_display = {
-					"filename_first",
+					-- "filename_first",
+					"smart",
 				},
 				results_title = false,
 				prompt_title = false,
@@ -52,6 +53,14 @@ return { -- Fuzzy Finder (files, lsp, etc)
 				},
 			},
 			pickers = {
+				oldfiles = {
+					previewer = false,
+					layout_config = {
+						height = 0.4,
+						prompt_position = "top",
+						preview_cutoff = 120,
+					},
+				},
 				find_files = {
 					previewer = false,
 					layout_config = {
@@ -70,7 +79,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 					},
 				},
 				live_grep = {
-					only_sort_text = true,
+					-- See custom/telescope-multi-ripgrep.lua
 				},
 			},
 			-- pickers = {}

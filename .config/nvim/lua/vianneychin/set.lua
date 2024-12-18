@@ -5,6 +5,7 @@ vim.opt.tabstop = 4 --  Number of spaces per tab character
 vim.opt.softtabstop = 4 --  Number of spaces to use when pressing the <Tab> key
 vim.opt.shiftwidth = 4 -- Number of spaces for auto indentation
 vim.opt.expandtab = true -- Converts tab to spaces
+
 vim.opt.autoindent = true
 vim.opt.smartindent = true -- Smart indentation
 vim.opt.wrap = false -- Disables line wrapping horizontally
@@ -27,17 +28,16 @@ vim.opt.colorcolumn = "80"
 vim.o.textwidth = 80
 
 -- UFO folding
-vim.o.foldcolumn = "0" -- '0' is not bad
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
-vim.o.cmdheight = 0
+vim.o.cmdheight = 1
 
 vim.o.tabline = "%t"
 
 -- Set diff colors to blend with the background
 -- Set the diff separator to use spaces instead of "-"
 vim.o.fillchars = vim.o.fillchars .. ",diff: "
+
+vim.diagnostic.config({ virtual_text = false })

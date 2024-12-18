@@ -48,6 +48,13 @@ local multi_ripgrep = function(opts)
 
 			return flatten({
 				args,
+				{
+					"--glob=!**/.git/**",
+					"--glob=!_ide_helper.php",
+					"--glob=!.phpstorm.meta.php",
+					"--glob=!package-lock.json",
+					"--glob=!composer.lock",
+				},
 				{ "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case" },
 			})
 		end,
@@ -68,5 +75,4 @@ end
 
 -- vim.keymap.set("n", "<space>F", multi_ripgrep)
 
-return multi_ripgrep;
-
+return multi_ripgrep

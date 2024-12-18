@@ -1,30 +1,36 @@
 return {
 	{
 		"tpope/vim-fugitive",
-	},
-	-- https://www.reddit.com/r/neovim/comments/1h8aekd/vimfugitive_is_just_a_superior_way_to_manage_your/
-	-- Perhaps retry vim-fugitive, it looks like it already has a pretty
-	-- intuitive ui to see diff changes
-	-- Just need to find the hotkeys for resetting changes, stagings, etc.
-	{
-		"sindrets/diffview.nvim",
-		config = function()
-			vim.keymap.set("n", "<leader>gg", "<Cmd>DiffviewOpen<CR>")
-			vim.keymap.set("n", "<leader>GG", "<Cmd>DiffviewClose<CR>")
 
-			require("diffview").setup({
-				keymaps = {
-					view = {
-						-- Restore entire file to original
-						["<leader>RR"] = function()
-							local actions = require("diffview.actions")
-							actions.restore_entry()
-						end,
-						-- Restore selected ranges
-					},
-				},
-			})
+		config = function()
+			vim.opt.statusline = "%<%f\\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\\ %P"
 		end,
+		-- :0Gllog
+		-- Browse through the history of a file
+		-- Can cycle though with :lnext and :lprevious. Close via :lclose
+		--
+		-- :G log %
+		-- Viewing the commits of a file.
+		--
+		-- :G blame %
+		--
+		-- :[range] Gllog
+		-- View the specific range of lines history change via log
+		--
+		-- :Gedit
+		-- To go back to the current version of any file
+		--
+		-- :Gedit !
+		-- Reach last commit that has touched the current file
+		-- Ideally we see this in the diff view though.
+		-- Current process is doing, :G then dv to open diff view
+		--
+		--
+		-- Useful commands in the :G status window
+		-- cw to reword last ocmmit
+		-- ca to ammend the last commit
+		-- cd to create a fixup commit
+		-- crc to rever the commit under the cursor
 	},
 	{
 		"lewis6991/gitsigns.nvim",

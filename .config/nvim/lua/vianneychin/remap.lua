@@ -14,15 +14,20 @@ vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "gp", vim.diagnostic.open_float)
 vim.keymap.set("n", "gP", vim.lsp.buf.hover)
 
+-- Interprets :W as :w because y'know
+vim.cmd("cnoreabbrev W w")
+
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { desc = "Open netrw." })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Move cursor back and center screen" })
 vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Move cursor forward and center screen" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move cursor half a page down and center screen" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move cursor half a page up and center screen" })
-vim.keymap.set("n", "<C-h>", "<C-w>h", { silent = true, desc = "Switch to left pane." })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { silent = true, desc = "Switch to bottom pane." })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { silent = true, desc = "Switch to top pane." })
-vim.keymap.set("n", "<C-l>", "<C-w>l", { silent = true, desc = "Switch to right pane." })
+
+-- Gonna just use the remaps for treewalker.nvim
+-- vim.keymap.set("n", "<C-h>", "<C-w>h", { silent = true, desc = "Switch to left pane." })
+-- vim.keymap.set("n", "<C-j>", "<C-w>j", { silent = true, desc = "Switch to bottom pane." })
+-- vim.keymap.set("n", "<C-k>", "<C-w>k", { silent = true, desc = "Switch to top pane." })
+-- vim.keymap.set("n", "<C-l>", "<C-w>l", { silent = true, desc = "Switch to right pane." })
 vim.keymap.set("n", "<C-Up>", "<Cmd>resize +2<CR>", { silent = true, desc = "Increase pane height." })
 vim.keymap.set("n", "<C-Down>", "<Cmd>resize -2<CR>", { silent = true, desc = "Decrease pane height." })
 vim.keymap.set("n", "<C-Left>", "<Cmd>vertical resize -2<CR>", { silent = true, desc = "Decrease pane width." })
@@ -45,8 +50,26 @@ vim.keymap.set("n", "<leader>q", function()
 end, { silent = true })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<C-c>", "<cmd>nohlsearch<CR>")
-vim.keymap.set("n", "q[", "<Cmd>cprev<CR>", { silent = true, desc = "Next item in the quickfix list." })
-vim.keymap.set("n", "q]", "<Cmd>cnext<CR>", { silent = true, desc = "Previous item in the quickfix list." })
+
+vim.keymap.set("n", "[q", "<Cmd>cprev<CR>", { desc = "Next item in the quickfix list." })
+vim.keymap.set("n", "]q", "<Cmd>cnext<CR>", { desc = "Previous item in the quickfix list." })
+
+vim.keymap.set("n", "[d", function()
+  vim.diagnostic.goto_next({ float = false })
+end, { desc = "Next diagnostic without hover" })
+
+vim.keymap.set("n", "]d", function()
+  vim.diagnostic.goto_prev({ float = false })
+end, { desc = "Previous diagnostic without hover" })
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>gn",
+  ":execute 'Gwrite' | execute 'normal! jdd'<CR>",
+  { noremap = true, silent = true, desc = "Stage current file and view next diff" }
+)
 
 vim.api.nvim_create_user_command("L", "Lazy", {})
 vim.api.nvim_create_user_command("M", "Mason", {})
+vim.api.nvim_create_user_command("T", "Telescope", {})
+
