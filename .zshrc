@@ -78,7 +78,7 @@ zstyle ':completion:*' menu select
 function pushdotfiles() {
     dotfiles add -u;
     dotfiles add ~/.config/nvim;
-    dotfiles commit -m "Update dotfiles";
+    dotfiles commit -m "(Auto message) Update dotfiles";
     dotfiles push origin main;
 }
 

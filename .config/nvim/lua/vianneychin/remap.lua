@@ -71,5 +71,3 @@ vim.api.nvim_set_keymap(
 
 vim.api.nvim_create_user_command("L", "Lazy", {})
 vim.api.nvim_create_user_command("M", "Mason", {})
-vim.api.nvim_create_user_command("T", "Telescope", {})
-

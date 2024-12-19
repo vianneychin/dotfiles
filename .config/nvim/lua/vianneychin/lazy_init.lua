@@ -16,7 +16,9 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     spec = "vianneychin.lazy",
-    -- automatically check for plugin updates
     checker = { enabled = true },
+    change_detection = {
+        notify = false
+    }
 })
 
