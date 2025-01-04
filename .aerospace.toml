@@ -120,4 +120,3 @@ l = 'resize width +50'
 enter = 'mode main'
 ctrl-c = 'mode main'
 esc = 'mode main'
-
