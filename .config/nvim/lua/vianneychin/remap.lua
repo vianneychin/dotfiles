@@ -69,5 +69,7 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true, desc = "Stage current file and view next diff" }
 )
 
+vim.keymap.set("n", "<leader>=", "<Cmd>!node %<CR>", { desc = "Run the current nodejs file" })
+
 vim.api.nvim_create_user_command("L", "Lazy", {})
 vim.api.nvim_create_user_command("M", "Mason", {})
