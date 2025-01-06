@@ -40,4 +40,7 @@ vim.o.tabline = "%t"
 -- Set the diff separator to use spaces instead of "-"
 vim.o.fillchars = vim.o.fillchars .. ",diff: "
 
+-- Allow "rachartieratiny-inline-diagnostic.nvim" to handle
+-- diagnostics
 vim.diagnostic.config({ virtual_text = false })
+vim.opt.smartindent = true
