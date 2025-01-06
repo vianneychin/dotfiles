@@ -12,16 +12,9 @@ enable-normalization-opposite-orientation-for-nested-containers = false
 
 # Mouse follows focus when focused monitor changes
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+on-focus-changed = "move-mouse window-lazy-center"
 
 [mode.main.binding]
-
-# See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
-alt-enter = '''exec-and-forget osascript -e '
-tell application "Terminal"
-    do script
-    activate
-end tell'
-'''
 
 alt-h = 'focus left'
 alt-j = 'focus down'
@@ -81,7 +74,7 @@ if.app-id = 'de.beyondco.tinkerwell'
 run = "move-node-to-workspace 0"
 
 [[on-window-detected]]
-if.app-id = 'com.github.wez.wezterm'
+if.app-id = 'com.mitchellh.ghostty'
 run = "move-node-to-workspace 1"
 
 [[on-window-detected]]
