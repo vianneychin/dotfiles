@@ -2,42 +2,48 @@ return {
 	"ibhagwan/fzf-lua",
 	dependencies = { "nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter-context" },
 	opts = {
-        oldfiles = {
-            include_current_session = true,
-        },
-        previewers = {
-            builtin = {
-                -- With this change, the previewer will not add syntax
-                -- highlighting to files larger than 100KB
-                syntax_limit_b = 1024 * 100, -- 100KB
-            }
-        },
-    },
+		-- oldfiles = {
+		--     include_current_session = true,
+		-- },
+		previewers = {
+			builtin = {
+				-- With this change, the previewer will not add syntax
+				-- highlighting to files larger than 100KB
+				syntax_limit_b = 1024 * 100, -- 100KB
+			},
+		},
+	},
 	config = function()
 		local fzfLua = require("fzf-lua")
-        local keymap = vim.keymap;
+		local keymap = vim.keymap
 		fzfLua.setup({
+			keymap = {
+				fzf = {
+					["ctrl-q"] = "select-all+accept",
+				},
+			},
 			vim.keymap.set("n", "<leader>p", function()
 				-- winopts.preview.delay = 0
 				fzfLua.files({
-					cmd = "rg --files --hidden",
+					formatter = "path.filename_first",
+					cmd = "rg --files --hidden --glob '!.git/**'",
 					winopts = {
 						border = "none",
 						height = 0.35,
 						width = 0.65,
-						preview = { layout = "vertical", delay = 10 },
+						preview = { layout = "vertical", delay = 50 },
 					},
 					previewer = false,
 				})
 			end, { desc = "[S]earch [F]iles" }),
 			keymap.set("n", "<leader>F", function()
 				fzfLua.live_grep({
-					search = "",
 					formatter = "path.filename_first",
-					cmd = "rg --color=always --smart-case --hidden --column -e",
+					resume = true,
+					cmd = "rg --files --hidden --glob '!.git/**'",
 					winopts = {
 						treesitter = false,
-						preview = { delay = 10 },
+						preview = { delay = 150 },
 						height = 0.95,
 						width = 0.95,
 					},
@@ -50,6 +56,7 @@ return {
 			end, { desc = "[S]earch [F]iles" }),
 			keymap.set("n", "<leader>b", function()
 				fzfLua.buffers({
+					formatter = "path.filename_first",
 					cmd = "rg --files --hidden",
 					winopts = {
 						border = "none",

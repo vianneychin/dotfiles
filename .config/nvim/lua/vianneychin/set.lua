@@ -1,5 +1,6 @@
 vim.opt.nu = true -- Enable line numbers
 vim.opt.relativenumber = true -- Enable relative line numbering from cursor position
+vim.opt.cursorline = true
 
 vim.opt.tabstop = 4 --  Number of spaces per tab character
 vim.opt.softtabstop = 4 --  Number of spaces to use when pressing the <Tab> key

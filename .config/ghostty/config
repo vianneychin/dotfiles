@@ -1,6 +1,7 @@
-font-size = 18
+font-size = 15
 theme = catppuccin-mocha
 macos-titlebar-style = hidden
 background = 14141c
 window-colorspace = display-p3
 gtk-adwaita = true
+font-family = "Berkeley Mono"

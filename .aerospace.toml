@@ -1,5 +1,5 @@
-new-window-detection-timeout = 25
-new-window-detection-debounce = 50
+new-window-detection-timeout = 50
+new-window-detection-debounce = 100
 
 # Reference: https://github.com/i3/i3/blob/next/etc/config
 
@@ -68,10 +68,6 @@ alt-shift-0 = 'move-node-to-workspace 10'
 alt-shift-c = 'reload-config'
 
 alt-r = 'mode resize'
-
-[[on-window-detected]]
-if.app-id = 'de.beyondco.tinkerwell'
-run = "move-node-to-workspace 0"
 
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
