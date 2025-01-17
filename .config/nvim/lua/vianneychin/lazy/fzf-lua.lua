@@ -106,8 +106,6 @@ return {
 			keymap.set("n", "<leader>sd", fzfLua.diagnostics_document, { desc = "[S]earch [D]iagnostics" }),
 			keymap.set("n", "<leader>sr", fzfLua.resume, { desc = "[S]earch [R]esume" }),
 			keymap.set("n", "<leader>s.", fzfLua.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' }),
-			keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", {}),
-			keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", {}),
 			keymap.set("n", "gD", fzfLua.lsp_declarations, {}),
 			keymap.set("n", "gd", fzfLua.lsp_definitions, {}),
 		})
