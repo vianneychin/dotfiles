@@ -28,10 +28,10 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move cursor half a page up and
 -- vim.keymap.set("n", "<C-j>", "<C-w>j", { silent = true, desc = "Switch to bottom pane." })
 -- vim.keymap.set("n", "<C-k>", "<C-w>k", { silent = true, desc = "Switch to top pane." })
 -- vim.keymap.set("n", "<C-l>", "<C-w>l", { silent = true, desc = "Switch to right pane." })
-vim.keymap.set("n", "<C-Up>", "<Cmd>resize +2<CR>", { silent = true, desc = "Increase pane height." })
-vim.keymap.set("n", "<C-Down>", "<Cmd>resize -2<CR>", { silent = true, desc = "Decrease pane height." })
-vim.keymap.set("n", "<C-Left>", "<Cmd>vertical resize -2<CR>", { silent = true, desc = "Decrease pane width." })
-vim.keymap.set("n", "<C-Right>", "<Cmd>vertical resize +2<CR>", { silent = true, desc = "Increase pane width." })
+vim.keymap.set("n", "<C-Up>", "<Cmd>resize +5<CR>", { silent = true, desc = "Increase pane height." })
+vim.keymap.set("n", "<C-Down>", "<Cmd>resize -5<CR>", { silent = true, desc = "Decrease pane height." })
+vim.keymap.set("n", "<C-Left>", "<Cmd>vertical resize -5<CR>", { silent = true, desc = "Decrease pane width." })
+vim.keymap.set("n", "<C-Right>", "<Cmd>vertical resize +5<CR>", { silent = true, desc = "Increase pane width." })
 vim.keymap.set("n", "<leader>\\", "<C-w>v", { desc = "Split window vertically" })
 vim.keymap.set("n", "<leader>|", "<C-w>s", { desc = "Split window horizontally" })
 -- vim.keymap.set("n", "<leader>b", ":ls<CR>:b ", { noremap = true, silent = false, desc = "List Buffers and switch." })
@@ -48,7 +48,7 @@ vim.keymap.set(
 -- 	local bufnum = vim.api.nvim_get_current_buf()
 -- 	vim.cmd("bdelete " .. bufnum)
 -- end, { silent = true })
-vim.keymap.set("n", "<leader>q", function()
+vim.keymap.set({"n", "v"}, "<leader>q", function()
   -- Count the windows in the current tab
   local win_count = #vim.api.nvim_tabpage_list_wins(0)
 

@@ -45,3 +45,5 @@ vim.o.fillchars = vim.o.fillchars .. ",diff: "
 -- diagnostics
 vim.diagnostic.config({ virtual_text = false })
 vim.opt.smartindent = true
+
+vim.opt.completeopt = { "menuone", "popup", "noinsert" }

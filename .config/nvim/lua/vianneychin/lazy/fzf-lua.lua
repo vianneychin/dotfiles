@@ -16,6 +16,40 @@ return {
 	config = function()
 		local fzfLua = require("fzf-lua")
 		local keymap = vim.keymap
+		-- https://github.com/ibhagwan/fzf-lua/issues/602
+		local function w(fn)
+			return function(...)
+				return fn({
+					ignore_current_line = true,
+					jump_to_single_result = true,
+					includeDeclaration = false,
+				}, ...)
+			end
+		end
+		-- https://github.com/deathbeam/dotfiles/blob/master/nvim/.config/nvim/lua/config/finder.lua#L43
+		vim.lsp.handlers["textDocument/codeAction"] = w(fzfLua.lsp_code_actions)
+		vim.lsp.handlers["textDocument/definition"] = w(fzfLua.lsp_definitions)
+		vim.lsp.handlers["textDocument/declaration"] = w(fzfLua.lsp_declarations)
+		vim.lsp.handlers["textDocument/typeDefinition"] = w(fzfLua.lsp_typedefs)
+		vim.lsp.handlers["textDocument/implementation"] = w(fzfLua.lsp_implementations)
+		vim.lsp.handlers["textDocument/references"] = w(fzfLua.lsp_references)
+		vim.lsp.handlers["textDocument/documentSymbol"] = w(fzfLua.lsp_document_symbols)
+		vim.lsp.handlers["workspace/symbol"] = w(fzfLua.lsp_workspace_symbols)
+		vim.lsp.handlers["callHierarchy/incomingCalls"] = w(fzfLua.lsp_incoming_calls)
+		vim.lsp.handlers["callHierarchy/outgoingCalls"] = w(fzfLua.lsp_outgoing_calls)
+		fzfLua.register_ui_select({
+			winopts = {
+				height = 0.35,
+				width = 0.65,
+				preview = { layout = "vertical", delay = 50 },
+			},
+			fzf_opts = {
+				["--prompt"] = "UISelect> ",
+				-- fzf_opts = {
+				-- 	["--tmux"] = "bottom,50%",
+				-- },
+			},
+		})
 		fzfLua.setup({
 			keymap = {
 				fzf = {
@@ -72,6 +106,10 @@ return {
 			keymap.set("n", "<leader>sd", fzfLua.diagnostics_document, { desc = "[S]earch [D]iagnostics" }),
 			keymap.set("n", "<leader>sr", fzfLua.resume, { desc = "[S]earch [R]esume" }),
 			keymap.set("n", "<leader>s.", fzfLua.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' }),
+			keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", {}),
+			keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", {}),
+			keymap.set("n", "gD", fzfLua.lsp_declarations, {}),
+			keymap.set("n", "gd", fzfLua.lsp_definitions, {}),
 		})
 	end,
 }
