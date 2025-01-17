@@ -44,10 +44,24 @@ vim.keymap.set(
 	[["_dP]],
 	{ silent = false, desc = "Paste over visually selected text without overwriting register." }
 )
+-- vim.keymap.set("n", "<leader>q", function()
+-- 	local bufnum = vim.api.nvim_get_current_buf()
+-- 	vim.cmd("bdelete " .. bufnum)
+-- end, { silent = true })
 vim.keymap.set("n", "<leader>q", function()
-	local bufnum = vim.api.nvim_get_current_buf()
-	vim.cmd("bdelete " .. bufnum)
+  -- Count the windows in the current tab
+  local win_count = #vim.api.nvim_tabpage_list_wins(0)
+
+  if win_count > 1 then
+    -- If more than one window, close the current window (i.e., split)
+    vim.cmd("close")
+  else
+    -- Otherwise, close the current buffer
+    local bufnum = vim.api.nvim_get_current_buf()
+    vim.cmd("bdelete " .. bufnum)
+  end
 end, { silent = true })
+
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<C-c>", "<cmd>nohlsearch<CR>")
 

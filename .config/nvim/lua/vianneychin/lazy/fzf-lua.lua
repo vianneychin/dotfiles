@@ -40,7 +40,7 @@ return {
 				fzfLua.live_grep({
 					formatter = "path.filename_first",
 					resume = true,
-					cmd = "rg --files --hidden --glob '!.git/**'",
+					-- cmd = "rg --files --hidden --glob '!.git/**'",
 					winopts = {
 						treesitter = false,
 						preview = { delay = 150 },

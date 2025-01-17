@@ -7,7 +7,4 @@ return {
 			desc = "Show undo history.",
 		},
 	},
-	config = function()
-		--
-	end,
 }
