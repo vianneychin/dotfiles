@@ -1,5 +1,17 @@
 return {
 	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {},
+		config = function()
+			require("render-markdown").setup({
+				file_types = { "markdown", "copilot-chat" },
+			})
+		end,
+	},
+	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		dependencies = {
 			-- { "github/copilot.vim" },
@@ -14,25 +26,24 @@ return {
 				desc = "CopilotChat",
 			},
 		},
-		mappings = {
-			close = {
-				-- Remove default CTRL+c keybinding to close window
-				insert = "",
-			},
-			submit_prompt = {
-				normal = "<C-CR>",
-				insert = "<C-CR>",
-			},
-		},
 		config = function()
-			-- TODO:
-			-- Keymaps:
-			-- -
 			require("CopilotChat").setup({
-				-- chat_autcomplete = false,
-                window = {
-                    width = 0.35
-                }
+				highlight_headers = false,
+				separator = "---",
+				error_header = "> [!ERROR] Error",
+				window = {
+					width = 0.35,
+				},
+				mappings = {
+					close = {
+						normal = "q",
+						insert = "<C-q>",
+					},
+					submit_prompt = {
+						normal = "<C-s>",
+						insert = "<C-s>",
+					},
+				},
 			})
 			vim.keymap.set("n", "<leader>cq", function()
 				local input = vim.fn.input("Quick Chat: ")
