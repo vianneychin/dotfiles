@@ -49,16 +49,24 @@ return {
 				},
 			},
 			vim.keymap.set("n", "<leader>p", function()
-				fzfLua.files({
-					winopts = {
-						border = "none",
-						height = 0.35,
-						width = 0.65,
-						preview = { layout = "vertical", delay = 50 },
-					},
-					previewer = false,
-				})
-			end, { desc = "[S]earch [F]iles" }),
+				local current_buf = vim.api.nvim_buf_get_name(0)
+				if current_buf:match("copilot%-chat") then
+                    -- Trigger the sequence that requires us to attach a file
+					vim.cmd("normal! i#file: ")
+                    vim.cmd("startinsert")
+					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "i", false)
+				else
+					fzfLua.files({
+						winopts = {
+							border = "none",
+							height = 0.35,
+							width = 0.45,
+							preview = { layout = "vertical", delay = 50 },
+						},
+						previewer = false,
+					})
+				end
+			end, { desc = "Search files" }),
 			keymap.set("n", "<leader>F", function()
 				fzfLua.live_grep({
 					resume = true,
@@ -74,7 +82,7 @@ return {
 						},
 					},
 				})
-			end, { desc = "[S]earch [F]iles" }),
+			end, { desc = "Grep word throughout all files" }),
 			keymap.set("n", "<leader>b", function()
 				fzfLua.buffers({
 					winopts = {
