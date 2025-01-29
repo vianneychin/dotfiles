@@ -14,7 +14,7 @@ return {
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		dependencies = {
-			-- { "github/copilot.vim" },
+			-- { "github/copilot.vim" }, -- only enable temporarily to authenticate 
 			{ "nvim-lua/plenary.nvim", branch = "master" },
 		},
 		build = "make tiktoken", -- Only on MacOS or Linux

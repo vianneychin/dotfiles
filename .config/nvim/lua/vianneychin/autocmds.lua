@@ -1,4 +1,4 @@
-------------------------------------------------
+
 --
 -- Highlight on yank
 --
@@ -14,6 +14,18 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		})
 	end,
 })
+
+vim.api.nvim_create_augroup("DisableAutoFormatForSCSS", { clear = true })
+-- Create an autocmd for SCSS files
+vim.api.nvim_create_autocmd("FileType", {
+	group = "DisableAutoFormatForSCSS",
+	pattern = "scss",
+	callback = function()
+		-- Disable automatic formatting
+		vim.opt_local.formatoptions:remove("t")
+	end,
+})
+
 
 ------------------------------------------------
 --

@@ -14,33 +14,23 @@ return {
 		local fzfLua = require("fzf-lua")
 		local keymap = vim.keymap
 		-- https://github.com/deathbeam/dotfiles/blob/master/nvim/.config/nvim/lua/config/finder.lua#L43
-		fzfLua.register_ui_select({
-			winopts = {
-				height = 0.35,
-				width = 0.65,
-				preview = { layout = "vertical", delay = 50 },
-			},
-			fzf_opts = {
-				["--prompt"] = "UISelect> ",
-				-- fzf_opts = {
-				-- 	["--tmux"] = "bottom,50%",
-				-- },
-			},
-		})
 		fzfLua.setup({
 			keymap = {
 				fzf = {
 					["ctrl-q"] = "select-all+accept",
 				},
 			},
-			defaults = {
-				formatter = "path.filename_first",
-				multiline = 1,
-			},
+            --
+			-- defaults = {
+			-- 	formatter = { "path.filename_first", 2 },
+			-- 	multiline = 1,
+			-- },
+
 			grep = {
-				rg_opts = ' --hidden --glob "!.git/" --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e',
+				rg_opts = ' --hidden --glob "!.git/" --glob "!_ide_helper.php" --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e',
 				no_column_hide = true,
 			},
+
 			lsp = {
 				code_actions = {
 					fzf_opts = {
@@ -48,25 +38,42 @@ return {
 					},
 				},
 			},
+
 			vim.keymap.set("n", "<leader>p", function()
 				local current_buf = vim.api.nvim_buf_get_name(0)
+
+				local fzf_opts = {
+					winopts = {
+						border = "none",
+						height = 0.35,
+						width = 0.65,
+						preview = { layout = "vertical", delay = 50 },
+					},
+					previewer = false,
+				}
+
 				if current_buf:match("copilot%-chat") then
-                    -- Trigger the sequence that requires us to attach a file
-					vim.cmd("normal! i#file: ")
-                    vim.cmd("startinsert")
-					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "i", false)
-				else
-					fzfLua.files({
-						winopts = {
-							border = "none",
-							height = 0.35,
-							width = 0.45,
-							preview = { layout = "vertical", delay = 50 },
-						},
-						previewer = false,
-					})
+					fzf_opts.path = "absolute"
+					fzf_opts.file_icons = false
+					fzf_opts.git_icons = false
+					fzf_opts.actions = {
+						["default"] = function(selected, _)
+							local file_path = selected[1]
+							if file_path then
+								-- Get the current directory
+								local current_dir = vim.fn.getcwd()
+								-- Concatenate the current_dir with the file_path
+								local custom_path = current_dir .. "/" .. file_path
+
+								vim.api.nvim_put({ "#file:" .. custom_path }, "", false, true)
+							end
+						end,
+					}
 				end
+
+				require("fzf-lua").files(fzf_opts)
 			end, { desc = "Search files" }),
+
 			keymap.set("n", "<leader>F", function()
 				fzfLua.live_grep({
 					resume = true,

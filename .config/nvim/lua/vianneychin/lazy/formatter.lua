@@ -26,6 +26,7 @@ return {
 			python = { "isort", "black" },
 			javascript = { "prettierd", "prettier", stop_after_first = true },
 			typescript = { "prettierd", "prettier", stop_after_first = true },
+			vue = { "prettier" },
 		},
 		-- Set default options
 		default_format_opts = {
@@ -43,5 +44,12 @@ return {
 	init = function()
 		-- If you want the formatexpr, here is the place to set it
 		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+		-- Vue format
+		-- vim.api.nvim_create_autocmd("BufWritePre", {
+		-- 	pattern = "*",
+		-- 	callback = function(args)
+		-- 		require("conform").format({ bufnr = args.buf })
+		-- 	end,
+		-- })
 	end,
 }

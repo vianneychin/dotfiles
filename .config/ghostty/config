@@ -6,5 +6,5 @@ window-colorspace = display-p3
 gtk-adwaita = true
 font-family = "Berkeley Mono"
 
-custom-shader = ./shaders/mnoise.glsl
-custom-shader-animation = always
+# custom-shader = ./shaders/mnoise.glsl
+# custom-shader-animation = always

@@ -26,7 +26,7 @@ vim.opt.signcolumn = "yes" -- Always shows the sign column to the left of the li
 vim.o.swapfile = false
 
 vim.opt.colorcolumn = "80"
-vim.o.textwidth = 80
+-- vim.o.textwidth = 80
 
 -- UFO folding
 vim.o.foldenable = true
