@@ -43,7 +43,15 @@ vim.o.fillchars = vim.o.fillchars .. ",diff: "
 
 -- Allow "rachartieratiny-inline-diagnostic.nvim" to handle
 -- diagnostics
-vim.diagnostic.config({ virtual_text = false })
+vim.diagnostic.config({ virtual_lines = true })
+vim.diagnostic.set = (function(orig)
+	return function(namespace, bufnr, diagnostics, opts)
+		for _, v in ipairs(diagnostics) do
+			v.col = v.col or 0
+		end
+		return orig(namespace, bufnr, diagnostics, opts)
+	end
+end)(vim.diagnostic.set)
 vim.opt.smartindent = true
 
 vim.opt.completeopt = { "menuone", "popup", "noinsert" }

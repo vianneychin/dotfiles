@@ -28,12 +28,14 @@ return {
 		},
 		config = function()
 			require("CopilotChat").setup({
+                model="claude-3.5-sonnet",
 				highlight_headers = false,
 				separator = "---",
 				error_header = "> [!ERROR] Error",
 				window = {
 					width = 0.35,
 				},
+                selection = require("CopilotChat.select").buffer,
 				mappings = {
 					close = {
 						normal = "q",

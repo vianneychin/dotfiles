@@ -2,6 +2,7 @@
 local wezterm = require("wezterm")
 
 return {
+    font = wezterm.font 'Berkeley Mono',
 	max_fps = 144,
 	font_size = 16,
 	enable_tab_bar = false,

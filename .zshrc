@@ -112,6 +112,8 @@ function addToPathFront() {
 addToPath $HOME/go/bin
 addToPath ":/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 addToPath "/opt/homebrew/opt/ruby/bin:$PATH"
+addToPath $HOME/.cargo/bin
+addToPath $HOME/.local/share/bob/nvim-bin
 addToPathFront $HOME/.local/scripts
 
 
@@ -124,7 +126,6 @@ addToPathFront $HOME/.local/scripts
 autoload -Uz compinit && compinit
 export BAT_THEME=Material-Theme-Palenight
 setopt NO_CASE_GLOB
-bindkey -v
 
 if [ -f "$HOME/.zshrc.dmm" ]; then
     source "$HOME/.zshrc.dmm"

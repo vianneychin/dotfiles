@@ -1,4 +1,3 @@
-
 --
 -- Highlight on yank
 --
@@ -10,7 +9,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
 		vim.highlight.on_yank({
 			higroup = "IncSearch",
-			timeout = 200,
 		})
 	end,
 })
@@ -25,7 +23,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.formatoptions:remove("t")
 	end,
 })
-
 
 ------------------------------------------------
 --
@@ -44,7 +41,6 @@ require("conform").setup({
 		return { timeout_ms = 500, lsp_format = "fallback" }
 	end,
 })
-
 vim.api.nvim_create_user_command("DisableFormatter", function(args)
 	if args.bang then
 		vim.b.disable_autoformat = true
@@ -55,15 +51,22 @@ end, {
 	desc = "Disable autoformat-on-save",
 	bang = true,
 })
-
 vim.api.nvim_create_user_command("EnableFormatter", function()
 	vim.b.disable_autoformat = false
 	vim.g.disable_autoformat = false
 end, {
 	desc = "Re-enable autoformat-on-save",
 })
+------------------------------------------------
+--
+-- END Formatter
+--
+------------------------------------------------
 
 ------------------------------------------------
+
+
+
 --
 -- Quickfix
 --
@@ -110,6 +113,7 @@ local function delete_qf_items()
 	vim.fn.setqflist(qflist, "r")
 	vim.fn.cursor(start_idx, 1)
 end
+-- Use vim keybindings to delete items in quick fix
 vim.api.nvim_create_autocmd("FileType", {
 	group = custom_group,
 	pattern = "qf",
@@ -126,6 +130,14 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 	desc = "Quickfix tweaks",
 })
+
+------------------------------------------------
+--
+-- END Quickfix
+--
+------------------------------------------------
+
+
 
 -- Add '$' to iskeyword for PHP files
 vim.api.nvim_create_autocmd("FileType", {

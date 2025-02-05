@@ -12,4 +12,3 @@ fi
 
 cd "$selected" || exit 1
 
-nvim .

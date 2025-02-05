@@ -1,4 +1,40 @@
+local function get_default_branch_name()
+	local res = vim.system({ "git", "rev-parse", "--verify", "main" }, { capture_output = true }):wait()
+	return res.code == 0 and "main" or "master"
+end
+
 return {
+	{
+		"sindrets/diffview.nvim",
+		config = function()
+			require("diffview").setup({
+				file_panel = {
+					-- Set listing_style to "list" (the alternative is "tree")
+					listing_style = "list",
+				},
+			})
+
+			vim.keymap.set(
+				"n",
+				"<leader>gf",
+				"<cmd>DiffviewFileHistory --follow %<cr>",
+				{ desc = "Git [F]ile history" }
+			)
+			vim.keymap.set("n", "<leader>gl", "<Cmd>.DiffviewFileHistory --follow<CR>", { desc = "Git [L]ine history" })
+			vim.keymap.set("n", "<leader>gl", "<Cmd>.DiffviewFileHistory --follow<CR>", { desc = "Git [L]ine history" })
+
+			-- Diff against remote master branch
+			vim.keymap.set("n", "<leader>gg", function()
+				if next(require("diffview.lib").views) == nil then
+					vim.cmd("DiffviewOpen")
+				else
+					vim.cmd("DiffviewClose")
+				end
+			end)
+
+			-- TODO: Maybe create a command that will close all the diff windows in one command
+		end,
+	},
 	{
 		"tpope/vim-fugitive",
 

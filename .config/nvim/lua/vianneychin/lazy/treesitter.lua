@@ -28,6 +28,7 @@ return {
 				"git_config",
 				"dockerfile",
 				"css",
+                "diff"
 			},
 			sync_install = false,
 			auto_install = true,
@@ -37,8 +38,8 @@ return {
 				--   If you are experiencing weird indenting issues, add the language to
 				--   the list of additional_vim_regex_highlighting and disabled languages for indent.
 				-- additional_vim_regex_highlighting = { "ruby" },
-                use_languagetree = false,
-                additional_vim_regex_highlighting = false,
+				use_languagetree = false,
+				additional_vim_regex_highlighting = false,
 				disable = function(_, bufnr)
 					local buf_name = vim.api.nvim_buf_get_name(bufnr)
 					local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
@@ -48,6 +49,8 @@ return {
 			indent = { enable = true, disable = { "ruby" } },
 		},
 		config = function(_, config)
+			require("nvim-treesitter.configs").setup(config)
+
 			---@class ParserInfo[]
 			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 			parser_config.blade = {
@@ -60,7 +63,6 @@ return {
 				},
 				filetype = "blade",
 			}
-			require("nvim-treesitter.configs").setup(config)
 		end,
 	},
 	{

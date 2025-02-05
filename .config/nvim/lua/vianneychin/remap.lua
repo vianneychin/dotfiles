@@ -17,7 +17,7 @@ vim.keymap.set("n", "gP", vim.lsp.buf.hover)
 -- Interprets :W as :w because y'know
 vim.cmd("cnoreabbrev W w")
 
-vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { desc = "Open netrw." })
+-- vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { desc = "Open netrw." })
 vim.keymap.set("n", "<C-i>", "<C-i>zz", { desc = "Move cursor back and center screen" })
 vim.keymap.set("n", "<C-o>", "<C-o>zz", { desc = "Move cursor forward and center screen" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move cursor half a page down and center screen" })
@@ -48,18 +48,13 @@ vim.keymap.set(
 -- 	local bufnum = vim.api.nvim_get_current_buf()
 -- 	vim.cmd("bdelete " .. bufnum)
 -- end, { silent = true })
-vim.keymap.set({"n", "v"}, "<leader>q", function()
-  -- Count the windows in the current tab
-  local win_count = #vim.api.nvim_tabpage_list_wins(0)
 
-  if win_count > 1 then
-    -- If more than one window, close the current window (i.e., split)
-    vim.cmd("close")
-  else
-    -- Otherwise, close the current buffer
-    local bufnum = vim.api.nvim_get_current_buf()
-    vim.cmd("bdelete " .. bufnum)
-  end
+vim.keymap.set({ "n", "v" }, "<leader>q", function()
+	local success = pcall(vim.cmd, "close")
+	if not success then
+		local bufnum = vim.api.nvim_get_current_buf()
+		vim.cmd("bdelete " .. bufnum)
+	end
 end, { silent = true })
 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -69,18 +64,18 @@ vim.keymap.set("n", "[q", "<Cmd>cprev<CR>", { desc = "Next item in the quickfix 
 vim.keymap.set("n", "]q", "<Cmd>cnext<CR>", { desc = "Previous item in the quickfix list." })
 
 vim.keymap.set("n", "[d", function()
-  vim.diagnostic.goto_next({ float = false })
+	vim.diagnostic.goto_next({ float = false })
 end, { desc = "Next diagnostic without hover" })
 
 vim.keymap.set("n", "]d", function()
-  vim.diagnostic.goto_prev({ float = false })
+	vim.diagnostic.goto_prev({ float = false })
 end, { desc = "Previous diagnostic without hover" })
 
 vim.api.nvim_set_keymap(
-  "n",
-  "<leader>gn",
-  ":execute 'Gwrite' | execute 'normal! jdd'<CR>",
-  { noremap = true, silent = true, desc = "Stage current file and view next diff" }
+	"n",
+	"<leader>gn",
+	":execute 'Gwrite' | execute 'normal! jdd'<CR>",
+	{ noremap = true, silent = true, desc = "Stage current file and view next diff" }
 )
 
 vim.keymap.set("n", "<leader>=", "<Cmd>!node %<CR>", { desc = "Run the current nodejs file" })
