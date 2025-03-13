@@ -25,6 +25,8 @@ return {
 			python = { "isort", "black" },
 			javascript = { "prettierd", "prettier", stop_after_first = true },
 			typescript = { "prettierd", "prettier", stop_after_first = true },
+			javascriptreact = { "prettierd", "prettier", stop_after_first = true }, -- For .jsx
+			typescriptreact = { "prettierd", "prettier", stop_after_first = true }, -- For .tsx
 			scss = { "prettierd", "prettier", stop_after_first = true },
 			vue = { "prettierd", "prettier" },
 			blade = { "blade-formatter" },

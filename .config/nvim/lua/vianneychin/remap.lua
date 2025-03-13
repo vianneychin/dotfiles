@@ -35,27 +35,21 @@ vim.keymap.set("n", "<C-Right>", "<Cmd>vertical resize +5<CR>", { silent = true,
 vim.keymap.set("n", "<leader>\\", "<C-w>v", { desc = "Split window vertically" })
 vim.keymap.set("n", "<leader>|", "<C-w>s", { desc = "Split window horizontally" })
 -- vim.keymap.set("n", "<leader>b", ":ls<CR>:b ", { noremap = true, silent = false, desc = "List Buffers and switch." })
-vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { silent = false, desc = "Delete without overwriting register." })
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { silent = false, desc = "Yank to system clipboard." })
-vim.keymap.set("n", "<leader>Y", [["+Y]], { silent = false, desc = "Yank to system clipboard." })
 vim.keymap.set(
 	"x",
 	"<leader>p",
 	[["_dP]],
 	{ silent = false, desc = "Paste over visually selected text without overwriting register." }
 )
--- vim.keymap.set("n", "<leader>q", function()
--- 	local bufnum = vim.api.nvim_get_current_buf()
--- 	vim.cmd("bdelete " .. bufnum)
--- end, { silent = true })
 
-vim.keymap.set({ "n", "v" }, "<leader>q", function()
-	local success = pcall(vim.cmd, "close")
-	if not success then
-		local bufnum = vim.api.nvim_get_current_buf()
-		vim.cmd("bdelete " .. bufnum)
-	end
-end, { silent = true })
+-- vim.keymap.set({ "n", "v" }, "<leader>q", function()
+-- 	local success = pcall(vim.cmd, "close")
+-- 	if not success then
+-- 		local bufnum = vim.api.nvim_get_current_buf()
+-- 		vim.cmd("bdelete " .. bufnum)
+-- 	end
+-- end, { silent = true })
 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<C-c>", "<cmd>nohlsearch<CR>")
@@ -78,7 +72,33 @@ vim.api.nvim_set_keymap(
 	{ noremap = true, silent = true, desc = "Stage current file and view next diff" }
 )
 
-vim.keymap.set("n", "<leader>=", "<Cmd>!node %<CR>", { desc = "Run the current nodejs file" })
+-- vim.keymap.set("n", "<leader>=", "<Cmd>!node %<CR>", { desc = "Run the current nodejs file" })
 
 vim.api.nvim_create_user_command("L", "Lazy", {})
 vim.api.nvim_create_user_command("M", "Mason", {})
+
+vim.keymap.set("v", "<leader>/", function()
+	local count = vim.v.count
+	vim.cmd.norm((count > 0 and count or "") .. "gcc")
+end)
+
+vim.keymap.set("n", "<leader>/", function()
+	local count = vim.v.count
+	vim.cmd.norm((count > 0 and count or "") .. "gcc")
+end)
+
+vim.keymap.set("o", "<leader>/", function()
+	local count = vim.v.count
+	vim.cmd.norm((count > 0 and count or "") .. "gcc")
+end)
+
+vim.keymap.set("x", "<leader>/", function()
+	local count = vim.v.count
+	vim.cmd.norm((count > 0 and count or "") .. "gcc")
+end)
+
+-- Swap Tab and Escape
+-- vim.keymap.set({ "n", "v" }, "<Tab>", "<Esc>", { noremap = true })
+-- vim.keymap.set({ "n", "v" }, "<Esc>", "<Tab>", { noremap = true })
+-- vim.keymap.set({ "i", "c" }, "<Tab>", "<Esc>", { noremap = true })
+-- vim.keymap.set({ "i", "c" }, "<Esc>", "<Tab>", { noremap = true })

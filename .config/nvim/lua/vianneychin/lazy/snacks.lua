@@ -10,6 +10,7 @@ local function search_files()
 		layout = { preview = false },
 	}
 	if current_buf:match("copilot%-chat") then
+		-- if current_buf:match("CodeCompanion") then
 		local copilot_win = vim.api.nvim_get_current_win()
 		opts.confirm = function(picker, item)
 			picker:close()
@@ -32,7 +33,7 @@ end
 local function grep_files()
 	Snacks.picker.grep({
 		live = true,
-		exclude = { "_ide_helper.php", "_ide_helper_models.php" },
+		exclude = { "_ide_helper.php", "_ide_helper_models.php", "composer.lock" },
 		formatters = {
 			file = {
 				filename_first = true,
@@ -57,7 +58,8 @@ end
 
 return {
 	"folke/snacks.nvim",
-
+	lazy = false,
+	priority = 1000,
 	---@type snacks.Config
 	opts = {
 		picker = {
@@ -96,7 +98,7 @@ return {
 				recent = {
 					layout = {
 						border = "none",
-						preview = false,
+						preview = nil,
 						layout = {
 							width = 0.5,
 							max_width = 90,
@@ -107,10 +109,10 @@ return {
 				},
 				buffers = {
 					layout = {
-						border = "none",
 						preview = false,
 						layout = {
 							width = 0.5,
+							border = "none",
 							max_width = 90,
 							height = 0.4,
 							min_height = 10,
@@ -119,10 +121,10 @@ return {
 				},
 				smart = {
 					layout = {
-						preview = false,
+						preview = nil,
 						layout = {
 							width = 0.5,
-                            border = "none",
+							border = "none",
 							max_width = 90,
 							height = 0.4,
 							min_height = 10,
@@ -131,8 +133,13 @@ return {
 				},
 			},
 		},
+
+		image = {
+            enabled = false
+        },
 	},
 	keys = {
+		-- Start Snacks.picker config
 		{
 			"<leader>z",
 			function()
@@ -152,7 +159,6 @@ return {
 		{ "<leader>F", grep_files, desc = "Grep word throughout all files" },
 		{ "<leader>sg", grep_files, desc = "Grep word throughout all files" },
 		{ "<leader>sb", buffers_picker, desc = "[ ] Find existing buffers" },
-		{ "<leader>b", buffers_picker, desc = "[ ] Find existing buffers" },
 		{ "<leader>ks", keymaps_picker, desc = "[S]earch [K]eymaps" },
 		{ "<leader>sk", keymaps_picker, desc = "[S]earch [K]eymaps" },
 		{
@@ -183,5 +189,23 @@ return {
 			end,
 			desc = '[S]earch Recent Files ("." for repeat)',
 		},
+		-- End Snacks.picker config
+
+		-- Start Snacks.scratch config
+		{
+			"<leader>.",
+			function()
+				Snacks.scratch()
+			end,
+			desc = "Toggle Scratch Buffer",
+		},
+		{
+			"<leader>S",
+			function()
+				Snacks.scratch.select()
+			end,
+			desc = "Select Scratch Buffer",
+		},
+		-- End Snacks.scratch config
 	},
 }

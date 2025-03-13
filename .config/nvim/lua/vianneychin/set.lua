@@ -1,49 +1,52 @@
-vim.opt.nu = true -- Enable line numbers
-vim.opt.relativenumber = true -- Enable relative line numbering from cursor position
-vim.opt.cursorline = true
+local o = vim.opt
 
-vim.opt.tabstop = 4 --  Number of spaces per tab character
-vim.opt.softtabstop = 4 --  Number of spaces to use when pressing the <Tab> key
-vim.opt.shiftwidth = 4 -- Number of spaces for auto indentation
-vim.opt.expandtab = true -- Converts tab to spaces
+o.nu = true -- Enable line numbers
+o.relativenumber = true -- Enable relative line numbering from cursor position
+o.cursorline = true
+o.tabstop = 4 --  Number of spaces per tab character
+o.softtabstop = 4 --  Number of spaces to use when pressing the <Tab> key
+o.shiftwidth = 4 -- Number of spaces for auto indentation
+o.expandtab = true -- Converts tab to spaces
+o.autoindent = true
+o.smartindent = true -- Smart indentation
+o.wrap = false -- Disables line wrapping horizontally
+o.undodir = os.getenv("HOME") .. "/.vim/undodir" -- Specifies the undo history
+o.undofile = true -- Enables persistent undo history even after closing nvim
+o.hlsearch = true -- Disables highlightning of search results
+o.incsearch = true -- Enables incremental search which highlights matches as you type
+o.termguicolors = true -- The good color
+o.scrolloff = 8 -- Keeps at least 8 lines of context above and below the cursor when jumping
+o.signcolumn = "yes" -- Always shows the sign column to the left of the line numbers
+o.swapfile = false
+o.colorcolumn = "80"
+-- o.foldenable = false
+-- o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- o.foldtext = ""
+-- o.foldlevel = 99
+-- o.foldmethod = "expr"
+-- o.foldnestmax = 1
+o.cmdheight = 1
 
-vim.opt.autoindent = true
-vim.opt.smartindent = true -- Smart indentation
-vim.opt.wrap = false -- Disables line wrapping horizontally
+o.tabline = "%t"
+vim.g.tabline_separator = " "
+vim.opt.showtabline = 2
+vim.api.nvim_set_hl(0, "TablineActive", { fg = "#ffffff", bg = "#4a4a4a", bold = true })
+vim.api.nvim_set_hl(0, "TablineActiveNumber", { fg = "#7aa2f7", bg = "#4a4a4a", bold = true })
 
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir" -- Specifies the undo history
-vim.opt.undofile = true -- Enables persistent undo history even after closing nvim
-
-vim.opt.hlsearch = true -- Disables highlightning of search results
-vim.opt.incsearch = true -- Enables incremental search which highlights matches as you type
-
-vim.opt.termguicolors = true -- The good color
-
-vim.opt.scrolloff = 8 -- Keeps at least 8 lines of context above and below the cursor when jumping
-vim.opt.signcolumn = "yes" -- Always shows the sign column to the left of the line numbers
-
--- vim.opt.updatetime = 50 -- Delay in milliseconds for Neovim to save the swap file
-vim.o.swapfile = false
-
-vim.opt.colorcolumn = "80"
+o.fillchars = "diff: " -- Set diff colors to blend with the background; Set the diff separator to use spaces instead of "-"
+o.smartindent = true
+o.completeopt = { "menuone", "popup", "noinsert" }
+o.undodir = vim.fn.stdpath("data") .. "/undodir"
+o.undofile = true
+o.undolevels = 1000
+o.updatetime = 50 -- Faster completion
 -- vim.o.textwidth = 80
 
--- UFO folding
-vim.o.foldenable = true
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+-- Squiggly
+vim.cmd([[let &t_Cs = "\e[4:3m"]])
+vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
-vim.o.cmdheight = 1
-
-vim.o.tabline = "%t"
-
--- Set diff colors to blend with the background
--- Set the diff separator to use spaces instead of "-"
-vim.o.fillchars = vim.o.fillchars .. ",diff: "
-
--- Allow "rachartieratiny-inline-diagnostic.nvim" to handle
--- diagnostics
-vim.diagnostic.config({ virtual_lines = true })
+vim.diagnostic.config({ virtual_lines = false, virtual_text = true, underline = true })
 vim.diagnostic.set = (function(orig)
 	return function(namespace, bufnr, diagnostics, opts)
 		for _, v in ipairs(diagnostics) do
@@ -52,6 +55,13 @@ vim.diagnostic.set = (function(orig)
 		return orig(namespace, bufnr, diagnostics, opts)
 	end
 end)(vim.diagnostic.set)
-vim.opt.smartindent = true
 
-vim.opt.completeopt = { "menuone", "popup", "noinsert" }
+o.numberwidth = 2
+o.signcolumn = "yes:1"
+o.statuscolumn = "%l%s"
+
+-- -- Enable spell check
+-- o.spell = true
+-- o.spelllang = { "en_us" }
+
+vim.opt.synmaxcol = 6000 -- default is 3000

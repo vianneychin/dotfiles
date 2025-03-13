@@ -11,21 +11,78 @@ return {
 			"stevearc/conform.nvim",
 			"L3MON4D3/LuaSnip",
 			"saadparwaiz1/cmp_luasnip",
+			"hrsh7th/nvim-cmp",
 		},
 
 		config = function()
-			vim.filetype.add({
-				pattern = {
-					[".*%.blade%.php"] = "blade",
-				},
-			})
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 				callback = function(event)
+					vim.lsp.handlers["textDocument/publishDiagnostics"] =
+						vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+							underline = true,
+							update_in_insert = false,
+							virtual_text = { spacing = 2 },
+							severity_sort = true,
+						})
+
+					vim.cmd([[
+                        highlight DiagnosticUnderlineError cterm=undercurl gui=undercurl guisp=Red blend=50
+                        highlight DiagnosticUnderlineWarn cterm=undercurl gui=undercurl guisp=Yellow blend=50
+                    ]])
+
 					vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", {})
-					vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", {})
+					vim.keymap.set("n", "gd", function()
+						-- Get list of locations
+						vim.lsp.buf.definition({
+							on_list = function(options)
+								-- Filter out ide_helper files
+								if options and options.items then
+									local filtered_items = vim.tbl_filter(function(item)
+										return not string.match(item.filename or "", "ide_helper")
+									end, options.items)
+
+									options.items = filtered_items
+									vim.fn.setqflist({}, " ", options)
+
+									if #filtered_items == 1 then
+										-- If only one location, jump to it directly
+										vim.cmd("cfirst")
+									elseif #filtered_items > 1 then
+										-- If multiple locations, show quickfix list
+										vim.cmd("copen")
+									end
+								end
+							end,
+						})
+					end, { buffer = event.buf })
 					vim.api.nvim_set_keymap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", {})
-					vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.rename()<CR>", {})
+
+					-- vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.rename()<CR>", {})
+					vim.keymap.set("n", "gr", function()
+						-- when rename opens the prompt, this autocommand will trigger
+						-- it will "press" CTRL-F to enter the command-line window `:h cmdwin`
+						-- in this window I can use normal mode keybindings
+						local cmdId
+						cmdId = vim.api.nvim_create_autocmd({ "CmdlineEnter" }, {
+							callback = function()
+								local key = vim.api.nvim_replace_termcodes("<C-f>", true, false, true)
+								vim.api.nvim_feedkeys(key, "c", false)
+								vim.api.nvim_feedkeys("0", "n", false)
+								-- autocmd was triggered and so we can remove the ID and return true to delete the autocmd
+								cmdId = nil
+								return true
+							end,
+						})
+						vim.lsp.buf.rename()
+						-- if LPS couldn't trigger rename on the symbol, clear the autocmd
+						vim.defer_fn(function()
+							-- the cmdId is not nil only if the LSP failed to rename
+							if cmdId then
+								vim.api.nvim_del_autocmd(cmdId)
+							end
+						end, 500)
+					end, { silent = true, desc = "Rename symbol" })
 				end,
 			})
 
@@ -34,8 +91,11 @@ return {
 			local servers = {
 				-- See `:help lspconfig-all`
 				["php-cs-fixer"] = {},
-				intelephense = {},
-				pint = {},
+				intelephense = {
+					init_options = {
+						licenceKey = "0084ZCGFUE12XWS",
+					},
+				},
 				["blade-formatter"] = {
 					filetypes = { "blade" },
 				},
@@ -44,28 +104,40 @@ return {
 				["vetur-vls"] = {},
 				rust_analyzer = {},
 				jsonls = {},
-				ts_ls = {
+				ts_ls = {},
+				vtsls = {
+					filetypes = {
+						"javascript",
+						"javascriptreact",
+						"javascript.jsx",
+						"typescript",
+						"typescriptreact",
+						"typescript.tsx",
+					},
 					settings = {
-						typescript = {
-							inlayHints = {
-								includeInlayParameterNameHints = "literal",
-								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-								includeInlayFunctionParameterTypeHints = true,
-								includeInlayVariableTypeHints = false,
-								includeInlayPropertyDeclarationTypeHints = true,
-								includeInlayFunctionLikeReturnTypeHints = true,
-								includeInlayEnumMemberValueHints = true,
+						complete_function_calls = true,
+						vtsls = {
+							enableMoveToFileCodeAction = true,
+							autoUseWorkspaceTsdk = true,
+							experimental = {
+								maxInlayHintLength = 30,
+								completion = {
+									enableServerSideFuzzyMatch = true,
+								},
 							},
 						},
-						javascript = {
+						typescript = {
+							updateImportsOnFileMove = { enabled = "always" },
+							suggest = {
+								completeFunctionCalls = true,
+							},
 							inlayHints = {
-								includeInlayParameterNameHints = "all",
-								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-								includeInlayFunctionParameterTypeHints = true,
-								includeInlayVariableTypeHints = true,
-								includeInlayPropertyDeclarationTypeHints = true,
-								includeInlayFunctionLikeReturnTypeHints = true,
-								includeInlayEnumMemberValueHints = true,
+								enumMemberValues = { enabled = true },
+								functionLikeReturnTypes = { enabled = true },
+								parameterNames = { enabled = "literals" },
+								parameterTypes = { enabled = true },
+								propertyDeclarationTypes = { enabled = true },
+								variableTypes = { enabled = false },
 							},
 						},
 					},
@@ -95,7 +167,7 @@ return {
 				"stylua",
 				"prettier",
 				"prettierd",
-                "eslint_d"
+				"eslint_d",
 				-- "eslint-lsp",
 			})
 
@@ -115,22 +187,6 @@ return {
 			})
 		end,
 	},
-	-- {
-	-- 	"luckasRanarison/tailwind-tools.nvim",
-	-- 	name = "tailwind-tools",
-	-- 	build = ":UpdateRemotePlugins",
-	-- 	dependencies = {
-	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 		"neovim/nvim-lspconfig",
-	-- 	},
-	-- 	opts = function()
-	-- 		return {
-	-- 			document_color = {
-	-- 				enabled = false,
-	-- 			},
-	-- 		}
-	-- 	end,
-	-- },
 	{
 		"folke/lazydev.nvim",
 		ft = "lua",
@@ -142,36 +198,4 @@ return {
 		},
 	},
 	{ "Bilal2453/luvit-meta", lazy = true },
-	{
-		-- Add the blade-nav.nvim plugin which provides Goto File capabilities
-		-- for Blade files.
-		"ricardoramirezr/blade-nav.nvim",
-		dependencies = {
-			"hrsh7th/nvim-cmp",
-		},
-		ft = { "blade", "php" },
-	},
-	{
-		"mfussenegger/nvim-lint",
-		event = { "BufReadPre", "BufNewFile" },
-		config = function()
-			local lint = require("lint")
-			lint.linters_by_ft = {
-				-- javascript = { "eslint_d" },
-				vue = { "eslint_d" },
-				-- typescript = { "eslint_d" },
-				-- javascriptreact = { "eslint_d" },
-				-- typescriptreact = { "eslint_d" },
-				-- php = { "phpstan" },
-			}
-			local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-
-			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-				group = lint_augroup,
-				callback = function()
-					lint.try_lint()
-				end,
-			})
-		end,
-	},
 }

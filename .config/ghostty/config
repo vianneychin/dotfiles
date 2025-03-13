@@ -1,8 +1,8 @@
 font-family = "Berkeley Mono"
-#font-family = "Dank Mono"
+# font-family = "Dank Mono"
 font-size = 16
 # font-thicken = true
-bold-is-bright = true
+# bold-is-bright = true
 cursor-text = #000000
 
 theme = catppuccin-mocha
@@ -12,6 +12,7 @@ window-colorspace = display-p3
 gtk-adwaita = true
 
 quick-terminal-animation-duration = 0
+adjust-underline-thickness = -1
 
 # custom-shader = ./shaders/mnoise.glsl
 # custom-shader-animation = always

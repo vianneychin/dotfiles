@@ -103,6 +103,13 @@ function addToPathFront() {
     fi
 }
 
+function rebuildLaradockPhp() {
+    cd ~/Projects/laradock;docker-compose down
+    docker-compose build php-fpm
+    docker-compose build workspace
+    cd ~/Projects/laradock;docker-compose up -d nginx mysql redis
+}
+
 
 
 
@@ -137,7 +144,5 @@ fi
 # Keybindings for running script files
 bindkey -s "^t" "tmux-sessionizer\n"
 bindkey -s "^f" "source ~/.local/scripts/nvim-quick-open-folder\n"
-
-export TERM=xterm-256color
 
 eval "$(rbenv init -)"

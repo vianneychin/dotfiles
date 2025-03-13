@@ -16,7 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     spec = "vianneychin.lazy",
-    checker = { enabled = true },
+    checker = { enabled = false },
     change_detection = {
         notify = false
     }
