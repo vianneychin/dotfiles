@@ -80,10 +80,14 @@ function pushdotfiles() {
     dotfiles add ~/.config/nvim;
     dotfiles commit -m "(Auto message) Update dotfiles";
     dotfiles push origin main;
+    echo "\033[32mSuccessfully pushed dotfiles.\033[0m"
 }
 
 function pulldotfiles() {
     dotfiles pull origin main
+    tmux source-file ~/.config/tmux/tmux.conf                                                                                                                                                                                                                      17:17:02
+    source ~/.zshrc
+    echo "\033[32mSuccessfully pulled dotfiles and reloaded configurations.\033[0m"
 }
 
 function addtolastcommit() {
