@@ -150,3 +150,11 @@ bindkey -s "^t" "tmux-sessionizer\n"
 bindkey -s "^f" "source ~/.local/scripts/nvim-quick-open-folder\n"
 
 eval "$(rbenv init -)"
+
+# pnpm
+export PNPM_HOME="/Users/vc/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
