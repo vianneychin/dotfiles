@@ -1,29 +1,19 @@
-; inherits: html
+; ((text) @injection.content
+;     (#not-has-ancestor? @injection.content "envoy")
+;     (#set! injection.combined)
+;     (#set! injection.language php))
 
-((escaped_echo_statement
-    (raw_text) @injection.content
-    (#set! injection.language "php_only")
-    (#set! injection.include-children)))
+((text) @injection.content
+    (#set! injection.combined)
+    (#set! injection.language php))
 
-((unescaped_echo_statement
-    (raw_text) @injection.content
-    (#set! injection.language "php_only")
-    (#set! injection.include-children)))
+((text) @injection.content
+    (#has-ancestor? @injection.content "envoy")
+    (#set! injection.combined)
+    (#set! injection.language bash))
 
-((directive
-   (directive_argument
-     (raw_text) @injection.content
-     (#set! injection.language "php_only")
-     (#set! injection.include-children))))
-
-((expression_attribute
-   (attribute_name)
-   (quoted_attribute_value
-     (attribute_value) @injection.content
-     (#set! injection.language "php_only")
-     (#set! injection.include-children))))
-
-(php_directive
-  (raw_text) @injection.content
-  (#set! injection.language "php_only")
-  (#set! injection.include-children))
+((php_only) @injection.content
+    (#set! injection.combined)
+    (#set! injection.language php_only))
+((parameter) @injection.content
+    (#set! injection.language php_only))

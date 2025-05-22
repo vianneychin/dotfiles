@@ -4,8 +4,7 @@ o.nu = true -- Enable line numbers
 o.relativenumber = true -- Enable relative line numbering from cursor position
 o.cursorline = true
 o.tabstop = 4 --  Number of spaces per tab character
-o.softtabstop = 4 --  Number of spaces to use when pressing the <Tab> key
-o.shiftwidth = 4 -- Number of spaces for auto indentation
+o.shiftwidth = 4 -- When set to 0, shiftwidth will automatically match tabstop
 o.expandtab = true -- Converts tab to spaces
 o.autoindent = true
 o.smartindent = true -- Smart indentation
@@ -42,23 +41,42 @@ o.undolevels = 1000
 o.updatetime = 50 -- Faster completion
 -- vim.o.textwidth = 80
 
--- Squiggly
-vim.cmd([[let &t_Cs = "\e[4:3m"]])
-vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
-vim.diagnostic.config({ virtual_lines = false, virtual_text = true, underline = true })
-vim.diagnostic.set = (function(orig)
-	return function(namespace, bufnr, diagnostics, opts)
-		for _, v in ipairs(diagnostics) do
-			v.col = v.col or 0
-		end
-		return orig(namespace, bufnr, diagnostics, opts)
-	end
-end)(vim.diagnostic.set)
+-- vim.diagnostic.config({
+-- 	virtual_lines = {
+-- 		current_line = true,
+-- 		format = function(diagnostic)
+-- 			local source = diagnostic.source and ("[" .. diagnostic.source .. "] ") or ""
+-- 			return string.format("%s%s", source, diagnostic.message)
+-- 		end,
+-- 	},
+-- 	virtual_text = {
+-- 		hl_mode = "combine",
+-- 		current_line = false,
+-- 		spacing = 2,
+-- 		source = "if_many", -- Shows source when multiple servers provide diagnostics
+-- 		prefix = "", -- You can change this to any symbol you prefer
+-- 		format = function(diagnostic)
+-- 			local source = diagnostic.source and ("[" .. diagnostic.source .. "] ") or ""
+-- 			return string.format("%s%s", source, diagnostic.message)
+-- 		end,
+-- 	},
+-- 	underline = true,
+-- })
+-- vim.diagnostic.set = (function(orig)
+-- 	return function(namespace, bufnr, diagnostics, opts)
+-- 		for _, v in ipairs(diagnostics) do
+-- 			v.col = v.col or 0
+-- 		end
+-- 		return orig(namespace, bufnr, diagnostics, opts)
+-- 	end
+-- end)(vim.diagnostic.set)
 
 o.numberwidth = 2
 o.signcolumn = "yes:1"
 o.statuscolumn = "%l%s"
+
+-- Undercurl
 
 -- -- Enable spell check
 -- o.spell = true

@@ -45,32 +45,25 @@ return {
 			},
 			indent = { enable = true },
 		},
-		config = function(_, config)
+		config = function(plug, config)
 			---@class ParserInfo[]
 			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-			-- parser_config.blade = {
-			-- 	install_info = {
-			-- 		url = "https://github.com/EmranMR/tree-sitter-blade",
-			-- 		files = { "src/parser.c" },
-			-- 		branch = "main",
-			-- 	},
-			-- 	filetype = "blade",
-			-- }
 			parser_config.blade = {
 				install_info = {
 					url = "https://github.com/EmranMR/tree-sitter-blade",
-					-- url = "https://github.com/deanrumsby/tree-sitter-blade",
 					files = { "src/parser.c" },
 					branch = "main",
 				},
 				filetype = "blade",
 			}
+
 			vim.filetype.add({
 				pattern = {
 					[".*%.blade%.php"] = "blade",
 				},
 			})
-			require("nvim-treesitter.configs").setup(config)
+			--
+			require(plug.main).setup(config)
 		end,
 	},
 	{

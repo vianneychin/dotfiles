@@ -3,7 +3,7 @@ return {
 		-- Main LSP Configuration
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
+			{ "williamboman/mason.nvim", config = true },
 			{ "williamboman/mason-lspconfig.nvim" },
 			{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
 			{ "saghen/blink.cmp" },
@@ -21,14 +21,17 @@ return {
 					vim.lsp.handlers["textDocument/publishDiagnostics"] =
 						vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 							underline = true,
-							update_in_insert = false,
+							update_in_insert = true,
 							virtual_text = { spacing = 2 },
 							severity_sort = true,
 						})
 
+					-- Makes background of the LSP messages to be transparent
 					vim.cmd([[
-                        highlight DiagnosticUnderlineError cterm=undercurl gui=undercurl guisp=Red blend=50
-                        highlight DiagnosticUnderlineWarn cterm=undercurl gui=undercurl guisp=Yellow blend=50
+                        highlight DiagnosticVirtualTextError guibg=NONE
+                        highlight DiagnosticVirtualTextWarn guibg=NONE
+                        highlight DiagnosticVirtualTextInfo guibg=NONE
+                        highlight DiagnosticVirtualTextHint guibg=NONE
                     ]])
 
 					vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", {})
@@ -47,10 +50,10 @@ return {
 
 									if #filtered_items == 1 then
 										-- If only one location, jump to it directly
-										vim.cmd("cfirst")
+										vim.cmd("cfirst | normal! zz")
 									elseif #filtered_items > 1 then
 										-- If multiple locations, show quickfix list
-										vim.cmd("copen")
+										vim.cmd("copen | normal! zz")
 									end
 								end
 							end,
@@ -83,12 +86,52 @@ return {
 							end
 						end, 500)
 					end, { silent = true, desc = "Rename symbol" })
+
+					vim.lsp.buf.format = function(options)
+						local util = require("vim.lsp.util")
+						options = options or {}
+						local bufnr = options.bufnr or vim.api.nvim_get_current_buf()
+						local clients = vim.lsp.buf_get_clients(bufnr)
+
+						if options.filter then
+							clients = options.filter(clients)
+						elseif options.id then
+							clients = vim.tbl_filter(function(client)
+								return client.id == options.id
+							end, clients)
+						elseif options.name then
+							clients = vim.tbl_filter(function(client)
+								return client.name == options.name
+							end, clients)
+						end
+
+						clients = vim.tbl_filter(function(client)
+							return client.supports_method("textDocument/formatting")
+						end, clients)
+
+						if #clients == 0 then
+							vim.notify("[LSP] Format request failed, no matching language servers.")
+						end
+
+						local timeout_ms = options.timeout_ms or 1000
+						for _, client in pairs(clients) do
+							local params = util.make_formatting_params(options.formatting_options)
+							local result, err =
+								client.request_sync("textDocument/formatting", params, timeout_ms, bufnr)
+							if result and result.result then
+								util.apply_text_edits(result.result, bufnr, client.offset_encoding)
+							elseif err then
+								vim.notify(string.format("[LSP][%s] %s", client.name, err), vim.log.levels.WARN)
+							end
+						end
+					end
 				end,
 			})
 
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			require("lspconfig").lua_ls.setup({ capabilities = capabilities })
 			local servers = {
+				-- cspell = {},
 				-- See `:help lspconfig-all`
 				["php-cs-fixer"] = {},
 				intelephense = {
@@ -100,50 +143,88 @@ return {
 					filetypes = { "blade" },
 				},
 
-				-- ["vue-language-server"] = {},
-				["vetur-vls"] = {},
-				rust_analyzer = {},
+				["volar"] = {},
+
 				jsonls = {},
-				ts_ls = {},
-				vtsls = {
+				-- ts_ls = {},
+				eslint = {
 					filetypes = {
+						"vue",
+                        "javascript",
+					},
+				},
+				tailwindcss = {
+					filetypes = {
+						"html",
+						"css",
+						"scss",
 						"javascript",
 						"javascriptreact",
-						"javascript.jsx",
 						"typescript",
 						"typescriptreact",
-						"typescript.tsx",
+						"vue",
+						"blade",
 					},
+					init_options = {
+						userLanguages = {
+							blade = "html",
+						},
+					},
+				},
+				-- vtsls = {
+				-- 	filetypes = {
+				-- 		"javascript",
+				-- 		"javascriptreact",
+				-- 		"javascript.jsx",
+				-- 		"typescript",
+				-- 		"typescriptreact",
+				-- 		"typescript.tsx",
+				-- 	},
+				-- 	settings = {
+				-- 		complete_function_calls = true,
+				-- 		vtsls = {
+				-- 			enableMoveToFileCodeAction = true,
+				-- 			autoUseWorkspaceTsdk = true,
+				-- 			experimental = {
+				-- 				maxInlayHintLength = 30,
+				-- 				completion = {
+				-- 					enableServerSideFuzzyMatch = true,
+				-- 				},
+				-- 			},
+				-- 		},
+				-- 		typescript = {
+				-- 			updateImportsOnFileMove = { enabled = "always" },
+				-- 			suggest = {
+				-- 				completeFunctionCalls = true,
+				-- 			},
+				-- 			inlayHints = {
+				-- 				enumMemberValues = { enabled = true },
+				-- 				functionLikeReturnTypes = { enabled = true },
+				-- 				parameterNames = { enabled = "literals" },
+				-- 				parameterTypes = { enabled = true },
+				-- 				propertyDeclarationTypes = { enabled = true },
+				-- 				variableTypes = { enabled = false },
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
+				["html-lsp"] = {},
+				cssls = {
 					settings = {
-						complete_function_calls = true,
-						vtsls = {
-							enableMoveToFileCodeAction = true,
-							autoUseWorkspaceTsdk = true,
-							experimental = {
-								maxInlayHintLength = 30,
-								completion = {
-									enableServerSideFuzzyMatch = true,
-								},
+						css = {
+							validate = true,
+							lint = {
+								unknownAtRules = "ignore",
 							},
 						},
-						typescript = {
-							updateImportsOnFileMove = { enabled = "always" },
-							suggest = {
-								completeFunctionCalls = true,
-							},
-							inlayHints = {
-								enumMemberValues = { enabled = true },
-								functionLikeReturnTypes = { enabled = true },
-								parameterNames = { enabled = "literals" },
-								parameterTypes = { enabled = true },
-								propertyDeclarationTypes = { enabled = true },
-								variableTypes = { enabled = false },
+						scss = {
+							validate = true,
+							lint = {
+								unknownAtRules = "ignore",
 							},
 						},
 					},
 				},
-				["html-lsp"] = {},
-				cssls = {},
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -167,13 +248,12 @@ return {
 				"stylua",
 				"prettier",
 				"prettierd",
-				"eslint_d",
-				-- "eslint-lsp",
 			})
 
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 			require("mason-lspconfig").setup({
+				automatic_installation = false,
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}

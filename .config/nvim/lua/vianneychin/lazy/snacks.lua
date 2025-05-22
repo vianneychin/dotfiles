@@ -40,7 +40,7 @@ local function grep_files()
 			},
 		},
 		previewer = {
-			-- file = { treesitter = { enabled = false } },
+			file = { treesitter = { enabled = true } },
 			layout = {
 				width = 0.9,
 			},
@@ -49,7 +49,12 @@ local function grep_files()
 end
 
 local function buffers_picker()
-	Snacks.picker.buffers({})
+	local opts = {
+		formatters = {
+			file = { filename_first = true },
+		},
+	}
+	Snacks.picker.buffers(opts)
 end
 
 local function keymaps_picker()
@@ -63,6 +68,11 @@ return {
 	---@type snacks.Config
 	opts = {
 		picker = {
+            exclude = {
+                "node_modules",
+                "vendor",
+                ".git"
+            },
 			sources = {
 				grep = {
 					win = {
@@ -135,8 +145,23 @@ return {
 		},
 
 		image = {
-            enabled = false
-        },
+			enabled = false,
+		},
+
+		-- indent = {
+		-- 	animate = {
+		-- 		enabled = false,
+		-- 	},
+		-- 	indent = {
+		-- 		hl = "SnacksIndent7",
+		-- 		only_scope = true,
+		-- 		only_current = true,
+		-- 	},
+		-- 	enabled = true,
+		-- 	chunk = {
+		-- 		enabled = false,
+		-- 	},
+		-- },
 	},
 	keys = {
 		-- Start Snacks.picker config

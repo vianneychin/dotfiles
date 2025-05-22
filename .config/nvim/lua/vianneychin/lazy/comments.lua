@@ -3,6 +3,7 @@ return {
 	opts = {
 		lang = {
 			phpdoc = { "// %s" },
+			blade = { "{{-- %s --}}" },
 		},
 	},
 	event = "VeryLazy",

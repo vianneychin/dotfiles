@@ -99,7 +99,7 @@ return {
 				separator = "---",
 				error_header = "> [!ERROR] Error",
 				window = {
-					width = 0.35,
+					width = 0.33,
 				},
 				selection = require("CopilotChat.select").buffer,
 				mappings = {

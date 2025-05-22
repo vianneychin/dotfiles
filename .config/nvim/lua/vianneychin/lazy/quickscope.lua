@@ -1,0 +1,33 @@
+return {
+	-- "unblevable/quick-scope",
+	-- config = function()
+	-- 	vim.api.nvim_set_hl(0, "QuickScopePrimary", {
+	-- 		-- fg = "#f5c2e7", -- Catppuccin pink, less intense than current green
+	-- 		underline = true,
+	-- 		ctermfg = 218,
+	-- 	})
+	-- 	vim.api.nvim_set_hl(0, "QuickScopeSecondary", {
+	-- 		-- fg = "#89dceb", -- Catppuccin sky blue, softer than current cyan
+	-- 		underline = true,
+	-- 		ctermfg = 117,
+	-- 	})
+	--
+	-- 	-- Create autocommand for persistent highlighting across colorscheme changes
+	-- 	local group = vim.api.nvim_create_augroup("QuickScopeColors", { clear = true })
+	-- 	vim.api.nvim_create_autocmd("ColorScheme", {
+	-- 		group = group,
+	-- 		callback = function()
+	-- 			vim.api.nvim_set_hl(0, "QuickScopePrimary", {
+	-- 				fg = "#afff5f",
+	-- 				underline = true,
+	-- 				ctermfg = 155,
+	-- 			})
+	-- 			vim.api.nvim_set_hl(0, "QuickScopeSecondary", {
+	-- 				fg = "#5fffff",
+	-- 				underline = true,
+	-- 				ctermfg = 81,
+	-- 			})
+	-- 		end,
+	-- 	})
+	-- end,
+}

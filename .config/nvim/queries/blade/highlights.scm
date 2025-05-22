@@ -1,13 +1,25 @@
-; inherits: html
+; (directive) @function
+; (directive_start) @function
+; (directive_end) @function
+; (comment) @comment
+; ((parameter) @include (#set! "priority" 110))
+; ((php_only) @include (#set! "priority" 110))
+; ((bracket_start) @function (#set! "priority" 120))
+; ((bracket_end) @function (#set! "priority" 120))
+; (keyword) @function
+;
 
-(escaped_echo_statement) @punctuation.special
+([
+  (directive)
+  (directive_start)
+  (directive_end)
+] @tag
+  (#set! priority 101))
 
-(unescaped_echo_statement) @punctuation.special
+([
+  (bracket_start)
+  (bracket_end)
+] @tag.delimiter
+  (#set! priority 101))
 
-(directive) @keyword.directive
-
-(expression_attribute
-  (attribute_name) @tag.attribute
-  (quoted_attribute_value)) @string
-
-(blade_comment) @comment
+((comment) @comment @spell (#set! priority 101))

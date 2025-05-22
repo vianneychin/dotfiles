@@ -1,21 +1,7 @@
--- vim.api.nvim_create_autocmd("BufEnter", {
---   callback = function()
---     if vim.opt.foldmethod:get() == "expr" then
---       vim.schedule(function()
---         vim.opt.foldmethod = "expr"
---       end)
---     end
---   end,
--- })
---
--- Highlight on yank
---
-------------------------------------------------
 vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	desc = "highlight on yank",
+    callback = function()
+        vim.highlight.on_yank()
+    end,
 })
 
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -127,6 +113,7 @@ local function delete_qf_items()
 	vim.fn.setqflist(qflist, "r")
 	vim.fn.cursor(start_idx, 1)
 end
+
 -- Use vim keybindings to delete items in quick fix
 vim.api.nvim_create_autocmd("FileType", {
 	group = custom_group,
@@ -191,3 +178,43 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		end)
 	end,
 })
+
+-- -- LSP VIRTUAL LINE
+local og_virt_text
+local og_virt_line
+-- vim.api.nvim_create_autocmd({ 'CursorMoved', 'DiagnosticChanged' }, {
+--   group = vim.api.nvim_create_augroup('diagnostic_only_virtlines', {}),
+--   callback = function()
+--     if og_virt_line == nil then
+--       og_virt_line = vim.diagnostic.config().virtual_lines
+--     end
+--
+--     -- ignore if virtual_lines.current_line is disabled
+--     if not (og_virt_line and og_virt_line.current_line) then
+--       if og_virt_text then
+--         vim.diagnostic.config({ virtual_text = og_virt_text })
+--         og_virt_text = nil
+--       end
+--       return
+--     end
+--
+--     if og_virt_text == nil then
+--       og_virt_text = vim.diagnostic.config().virtual_text
+--     end
+--
+--     local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+--
+--     if vim.tbl_isempty(vim.diagnostic.get(0, { lnum = lnum })) then
+--       vim.diagnostic.config({ virtual_text = og_virt_text })
+--     else
+--       vim.diagnostic.config({ virtual_text = false })
+--     end
+--   end
+-- })
+-- vim.api.nvim_create_autocmd('ModeChanged', {
+--   group = vim.api.nvim_create_augroup('diagnostic_redraw', {}),
+--   callback = function()
+--     pcall(vim.diagnostic.show)
+--   end
+-- })
+-- --

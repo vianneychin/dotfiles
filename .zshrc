@@ -11,6 +11,7 @@ source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 
+
 # ---------------------------------------------------------------------------------------------
 #
 # FZF SHELL INTEGRATAION
@@ -51,16 +52,23 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # ---------------------------------------------------------------------------------------------
 # Simplify commands for efficiency and convenience.
 alias g='git'
-alias hosts='code /private/etc/hosts'
+alias hosts='sudo nvim /private/etc/hosts'
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 alias c="clear"
 alias vim="nvim" # xd
 alias vi="nvim" # xd
+
 alias ld-up="(cd ~/Projects/laradock;docker-compose up -d nginx mysql redis)"
 alias ld-down="(cd ~/Projects/laradock;docker-compose down)"
+alias ld-restart="ld-down; ld-up"
 alias ld-ssh="(cd ~/Projects/laradock;docker-compose exec workspace bash)"
 alias ld-redis-cli="(cd ~/Projects/laradock;docker-compose run redis redis-cli -h redis)"
 
+# alias ld-wdl-up="(cd ~/Projects/laradock-wdl;docker-compose up -d nginx mysql redis)"
+# alias ld-wdl-down="(cd ~/Projects/laradock-wdl;docker-compose down)"
+# alias ld-wdl-restart="ld-wdl-down; ld-wdl-up"
+# alias ld-wdl-ssh="(cd ~/Projects/laradock-wdl;docker-compose exec workspace bash)"
+# alias ld-wdl-redis-cli="(cd ~/Projects/laradock-wdl;docker-compose run redis redis-cli -h redis)"
 
 
 # ---------------------------------------------------------------------------------------------
@@ -78,6 +86,7 @@ zstyle ':completion:*' menu select
 function pushdotfiles() {
     dotfiles add -u;
     dotfiles add ~/.config/nvim;
+    dotfiles add ~/.config/ghostty;
     dotfiles commit -m "(Auto message) Update dotfiles";
     dotfiles push origin main;
     echo "\033[32mSuccessfully pushed dotfiles.\033[0m"
@@ -120,14 +129,23 @@ function rebuildLaradockPhp() {
 # ---------------------------------------------------------------------------------------------
 # PATH & ENVIRONMENT VARIABLES
 # ---------------------------------------------------------------------------------------------
+addToPathFront $HOME/.local/scripts
 addToPath $HOME/go/bin
 addToPath ":/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 addToPath "/opt/homebrew/opt/ruby/bin:$PATH"
 addToPath $HOME/.cargo/bin
 addToPath $HOME/.local/share/bob/nvim-bin
-addToPathFront $HOME/.local/scripts
+# addToPath "/opt/homebrew/bin/composer"
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "/Users/vc/.composer/vendor/bin" ] ; then
+    PATH="/Users/vc/.composer/vendor/bin:$PATH"
+fi
 
 
 

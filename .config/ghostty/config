@@ -1,8 +1,5 @@
 font-family = "Berkeley Mono"
-# font-family = "Dank Mono"
-font-size = 16
-# font-thicken = true
-# bold-is-bright = true
+font-size = 14
 cursor-text = #000000
 
 theme = catppuccin-mocha
