@@ -16,15 +16,11 @@ o.incsearch = true -- Enables incremental search which highlights matches as you
 o.termguicolors = true -- The good color
 o.scrolloff = 8 -- Keeps at least 8 lines of context above and below the cursor when jumping
 o.signcolumn = "yes" -- Always shows the sign column to the left of the line numbers
+o.sidescrolloff = 8 -- Keep 8 columns of context to the left and right of the cursor
 o.swapfile = false
 o.colorcolumn = "80"
--- o.foldenable = false
--- o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
--- o.foldtext = ""
--- o.foldlevel = 99
--- o.foldmethod = "expr"
--- o.foldnestmax = 1
 o.cmdheight = 1
+o.foldenable = false -- Disable folding
 
 o.tabline = "%t"
 vim.g.tabline_separator = " "
@@ -40,7 +36,6 @@ o.undofile = true
 o.undolevels = 1000
 o.updatetime = 50 -- Faster completion
 -- vim.o.textwidth = 80
-
 
 -- vim.diagnostic.config({
 -- 	virtual_lines = {

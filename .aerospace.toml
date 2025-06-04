@@ -92,6 +92,10 @@ on-focus-changed           = "move-mouse window-lazy-center"
     run       = "move-node-to-workspace 9"
 
 [[on-window-detected]]
+    if.app-id = 'com.apple.MobileSMS'
+    run       = "move-node-to-workspace 9"
+
+[[on-window-detected]]
     if.app-id = 'com.tinyspeck.slackmacgap'
     run       = "move-node-to-workspace 9"
 
@@ -107,6 +111,13 @@ on-focus-changed           = "move-mouse window-lazy-center"
     if.app-id = 'com.apple.finder'
     run       = 'layout floating'
 
+[[on-window-detected]]
+    if.app-id = 'com.apple.systempreferences'
+    run       = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.1password.1password'
+    run       = 'layout floating'
 
 [mode.resize.binding]
     h      = 'resize width -50'

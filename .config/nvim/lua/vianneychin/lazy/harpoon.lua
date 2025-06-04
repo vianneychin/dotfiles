@@ -32,8 +32,10 @@ local function remove_and_compact_and_select_next_item()
 	local new_idx = 1
 	for i = 1, original_length do
 		local item = list:get(i)
+
 		if item ~= nil then
 			temp_items[new_idx] = item
+
 			new_idx = new_idx + 1
 		end
 	end
@@ -75,6 +77,7 @@ return {
 			end)
 			vim.keymap.set("n", "<leader>d", function()
 				remove_and_compact_and_select_next_item()
+
 				vim.cmd.redrawtabline()
 			end)
 			for i = 1, 9 do
@@ -111,7 +114,8 @@ return {
 					local display_path = reduce_path(f)
 					local entry = {}
 					-- Customize tab text color
-					local highlight = f == current_file and "%#HarpoonHighlight#" or "%#TablineInactive#"
+					local highlight = (string.sub(current_file, -string.len(f)) == f) and "%#HarpoonHighlight#"
+						or "%#TablineInactive#"
 					table.insert(
 						entry,
 						string.format(
@@ -128,7 +132,6 @@ return {
 				return s
 			end
 			vim.go.tabline = "%!v:lua.tabline()"
-
 			-- Define custom highlight groups
 			vim.api.nvim_set_hl(0, "HarpoonHighlight", { fg = "#fab387" })
 			vim.api.nvim_set_hl(0, "TablineInactive", { fg = "#45475a" })

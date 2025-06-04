@@ -1,7 +1,7 @@
 vim.api.nvim_create_autocmd("TextYankPost", {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
+	callback = function()
+		vim.highlight.on_yank()
+	end,
 })
 
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -145,76 +145,3 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.iskeyword:append("$")
 	end,
 })
-
--- Disable certain features when opening large files
-local big_file = vim.api.nvim_create_augroup("BigFile", { clear = true })
-vim.filetype.add({
-	pattern = {
-		[".*"] = {
-			function(path, buf)
-				return vim.bo[buf]
-						and vim.bo[buf].filetype ~= "bigfile"
-						and path
-						and vim.fn.getfsize(path) > 1024 * 500
-						and "bigfile"
-					or nil -- bigger than 500KB
-			end,
-		},
-	},
-})
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = big_file,
-	pattern = "bigfile",
-	callback = function(ev)
-		vim.cmd("set nowrap")
-		vim.cmd("set noundofile")
-		vim.opt_local.foldmethod = "manual"
-		vim.opt_local.spell = false
-		vim.schedule(function()
-			local ok, ft = pcall(vim.filetype.match, { buf = ev.buf })
-			if ok then
-				vim.bo[ev.buf].syntax = ft or ""
-			end
-		end)
-	end,
-})
-
--- -- LSP VIRTUAL LINE
-local og_virt_text
-local og_virt_line
--- vim.api.nvim_create_autocmd({ 'CursorMoved', 'DiagnosticChanged' }, {
---   group = vim.api.nvim_create_augroup('diagnostic_only_virtlines', {}),
---   callback = function()
---     if og_virt_line == nil then
---       og_virt_line = vim.diagnostic.config().virtual_lines
---     end
---
---     -- ignore if virtual_lines.current_line is disabled
---     if not (og_virt_line and og_virt_line.current_line) then
---       if og_virt_text then
---         vim.diagnostic.config({ virtual_text = og_virt_text })
---         og_virt_text = nil
---       end
---       return
---     end
---
---     if og_virt_text == nil then
---       og_virt_text = vim.diagnostic.config().virtual_text
---     end
---
---     local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
---
---     if vim.tbl_isempty(vim.diagnostic.get(0, { lnum = lnum })) then
---       vim.diagnostic.config({ virtual_text = og_virt_text })
---     else
---       vim.diagnostic.config({ virtual_text = false })
---     end
---   end
--- })
--- vim.api.nvim_create_autocmd('ModeChanged', {
---   group = vim.api.nvim_create_augroup('diagnostic_redraw', {}),
---   callback = function()
---     pcall(vim.diagnostic.show)
---   end
--- })
--- --

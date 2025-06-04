@@ -1,3 +1,6 @@
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 require("vianneychin.remap")
 require("vianneychin.set")
 require("vianneychin.lazy_init")
@@ -9,5 +12,3 @@ vim.cmd([[hi DiagnosticUnderlineWarn cterm=undercurl gui=undercurl]])
 vim.cmd([[hi DiagnosticUnderlineError cterm=undercurl gui=undercurl]])
 vim.cmd([[hi DiagnosticInfo cterm=undercurl gui=undercurl]])
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
