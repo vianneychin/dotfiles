@@ -145,3 +145,25 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.iskeyword:append("$")
 	end,
 })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+	desc = "User: Set LSP folding if client supports it",
+	callback = function(ctx)
+		local client = assert(vim.lsp.get_client_by_id(ctx.data.client_id))
+		if client:supports_method("textDocument/foldingRange") then
+			local win = vim.api.nvim_get_current_win()
+			vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "RecordingEnter" }, {
+	callback = function()
+		vim.opt.cmdheight = 1
+	end,
+})
+vim.api.nvim_create_autocmd({ "RecordingLeave" }, {
+	callback = function()
+		vim.opt.cmdheight = 0
+	end,
+})

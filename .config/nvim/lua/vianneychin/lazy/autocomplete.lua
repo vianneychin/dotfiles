@@ -3,52 +3,52 @@ return {
 		"saghen/blink.cmp",
 		lazy = false, -- lazy loading handled internally
 		version = "v0.*",
+		---
 		---@module 'blink.cmp'
+		---@type blink.cmp.Config
 		opts = {
 			appearance = {
-				use_nvim_cmp_as_default = true,
+				use_nvim_cmp_as_default = false,
 				nerd_font_variant = "mono",
 			},
-			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
-				-- providers = {
-				-- 	lsp = {
-				-- 		override = {
-				-- 			get_trigger_characters = function(self)
-				-- 				local trigger_characters = self:get_trigger_characters()
-				-- 				vim.list_extend(trigger_characters, { "\n", "\t", " " })
-				-- 				return trigger_characters
-				-- 			end,
-				-- 		},
-				-- 	},
-				-- },
-			},
 			completion = {
-				-- ghost_text = { enabled = true },
-				accept = { auto_brackets = { enabled = false } },
-				-- Don't select by default, auto insert on selection
-				list = { selection = { preselect = false, auto_insert = true } },
+				list = { selection = { preselect = true, auto_insert = true } },
+				accept = {
+					auto_brackets = {
+						enabled = false,
+					},
+				},
 				documentation = {
 					auto_show = true,
-					auto_show_delay_ms = 200,
-					window = { border = "rounded" },
-				},
-				trigger = {
-					prefetch_on_insert = true,
-					-- INFO: Check on this periodically because it doesn't work
-					-- https://github.com/Saghen/blink.cmp/issues/836
-					show_on_blocked_trigger_characters = {},
+					auto_show_delay_ms = 50,
+					window = {
+						border = "rounded",
+					},
 				},
 				menu = {
+					-- border = "rounded",
+					auto_show = true,
 					draw = {
+						columns = {
+							{ "label", "label_description", gap = 1 },
+							{ "kind_icon", "kind", gap = 1 },
+						},
+						-- columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
+						treesitter = { "lsp" },
 						components = {
 							kind_icon = {
-								ellipsis = false,
 								text = function(ctx)
 									local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
 									return kind_icon
 								end,
-								-- Optionally, you may also use the highlights from mini.icons
+								-- (optional) use highlights from mini.icons
+								highlight = function(ctx)
+									local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+									return hl
+								end,
+							},
+							kind = {
+								-- (optional) use highlights from mini.icons
 								highlight = function(ctx)
 									local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
 									return hl
@@ -57,8 +57,10 @@ return {
 						},
 					},
 				},
+				ghost_text = {
+					enabled = vim.g.ai_cmp,
+				},
 			},
 		},
-		opts_extend = { "sources.default" },
 	},
 }

@@ -133,8 +133,8 @@ return {
 			end
 			vim.go.tabline = "%!v:lua.tabline()"
 			-- Define custom highlight groups
-			vim.api.nvim_set_hl(0, "HarpoonHighlight", { fg = "#fab387" })
-			vim.api.nvim_set_hl(0, "TablineInactive", { fg = "#45475a" })
+			vim.api.nvim_set_hl(0, "HarpoonHighlight", { fg = "#FF9E3B" })
+			vim.api.nvim_set_hl(0, "TablineInactive", { fg = "#54546D" })
 		end,
 	},
 }

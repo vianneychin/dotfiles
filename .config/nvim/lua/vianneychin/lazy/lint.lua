@@ -3,7 +3,7 @@ return {
 	config = function()
 		local lint = require("lint")
 		lint.linters_by_ft = {
-			php = { "phpstan" },
+			-- php = { "phpstan" },
 			vue = { "eslint_d" },
 			-- javascript = { "eslint_d" },
 			-- typescript = { "eslint_d" },

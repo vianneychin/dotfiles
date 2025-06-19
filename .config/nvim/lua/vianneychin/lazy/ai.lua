@@ -1,4 +1,10 @@
 return {
+	{
+		"supermaven-inc/supermaven-nvim",
+		config = function()
+			require("supermaven-nvim").setup({})
+		end,
+	},
 	-- {
 	-- 	"olimorris/codecompanion.nvim",
 	-- 	opts = {},
@@ -129,7 +135,7 @@ return {
 		opts = {},
 		config = function()
 			require("render-markdown").setup({
-				file_types = { "markdown", "copilot-chat", "codecompanion", "todo" },
+				-- file_types = { "markdown", "copilot-chat", "codecompanion", "todo" },
 			})
 		end,
 	},

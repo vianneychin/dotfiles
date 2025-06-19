@@ -8,7 +8,11 @@ require("vianneychin.autocmds")
 
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])
-vim.cmd([[hi DiagnosticUnderlineWarn cterm=undercurl gui=undercurl]])
-vim.cmd([[hi DiagnosticUnderlineError cterm=undercurl gui=undercurl]])
-vim.cmd([[hi DiagnosticInfo cterm=undercurl gui=undercurl]])
+
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineWarn', { undercurl = true })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { undercurl = true })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineInfo', { undercurl = true })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { undercurl = true })
+
+vim.cmd("colorscheme kanagawa")
 

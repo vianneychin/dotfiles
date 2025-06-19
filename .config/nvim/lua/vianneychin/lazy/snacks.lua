@@ -165,20 +165,6 @@ return {
 	},
 	keys = {
 		-- Start Snacks.picker config
-		{
-			"<leader>z",
-			function()
-				Snacks.zen()
-			end,
-			desc = "Toggle Zen Mode",
-		},
-		{
-			"<leader>Z",
-			function()
-				Snacks.zen.zoom()
-			end,
-			desc = "Toggle Zoom",
-		},
 		{ "<leader>sf", search_files, desc = "Search files" },
 		{ "<leader>p", search_files, desc = "Search files" },
 		{ "<leader>F", grep_files, desc = "Grep word throughout all files" },
@@ -214,23 +200,5 @@ return {
 			end,
 			desc = '[S]earch Recent Files ("." for repeat)',
 		},
-		-- End Snacks.picker config
-
-		-- Start Snacks.scratch config
-		{
-			"<leader>.",
-			function()
-				Snacks.scratch()
-			end,
-			desc = "Toggle Scratch Buffer",
-		},
-		{
-			"<leader>S",
-			function()
-				Snacks.scratch.select()
-			end,
-			desc = "Select Scratch Buffer",
-		},
-		-- End Snacks.scratch config
 	},
 }

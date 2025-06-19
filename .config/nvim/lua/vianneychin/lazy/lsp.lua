@@ -9,9 +9,8 @@ return {
 			{ "saghen/blink.cmp" },
 			{ "j-hui/fidget.nvim", opts = {} },
 			"stevearc/conform.nvim",
-			"L3MON4D3/LuaSnip",
-			"saadparwaiz1/cmp_luasnip",
-			"hrsh7th/nvim-cmp",
+			-- "L3MON4D3/LuaSnip",
+			-- "saadparwaiz1/cmp_luasnip",
 		},
 
 		config = function()
@@ -127,30 +126,72 @@ return {
 					end
 				end,
 			})
+			local get_intelephense_license = function()
+				local f = assert(io.open(os.getenv("HOME") .. "/intelephense/licence.txt", "rb"))
+				local content = f:read("*a")
+				f:close()
+				return string.gsub(content, "%s+", "")
+			end
 
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			require("lspconfig").lua_ls.setup({ capabilities = capabilities })
 			local servers = {
 				-- cspell = {},
 				-- See `:help lspconfig-all`
-				["php-cs-fixer"] = {},
+				-- ["php-cs-fixer"] = {},
 				intelephense = {
 					init_options = {
-						licenceKey = "0084ZCGFUE12XWS",
+						licenceKey = get_intelephense_license(),
 					},
 				},
 				["blade-formatter"] = {
 					filetypes = { "blade" },
 				},
-
-				["volar"] = {},
+				ts_ls = {
+					-- single_file_support = false,
+					settings = {
+						typescript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "literal",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayVariableTypeHints = false,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+						javascript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "all",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayVariableTypeHints = true,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+					},
+				},
 
 				jsonls = {},
 				-- ts_ls = {},
 				eslint = {
+					-- filetypes = {
+					-- 	"vue",
+					-- 	"javascript",
+					-- },
 					filetypes = {
+						"html",
+						"css",
+						"scss",
+						"javascript",
+						"javascriptreact",
+						"typescript",
+						"typescriptreact",
 						"vue",
-                        "javascript",
+						"blade",
 					},
 				},
 				tailwindcss = {
@@ -171,43 +212,6 @@ return {
 						},
 					},
 				},
-				-- vtsls = {
-				-- 	filetypes = {
-				-- 		"javascript",
-				-- 		"javascriptreact",
-				-- 		"javascript.jsx",
-				-- 		"typescript",
-				-- 		"typescriptreact",
-				-- 		"typescript.tsx",
-				-- 	},
-				-- 	settings = {
-				-- 		complete_function_calls = true,
-				-- 		vtsls = {
-				-- 			enableMoveToFileCodeAction = true,
-				-- 			autoUseWorkspaceTsdk = true,
-				-- 			experimental = {
-				-- 				maxInlayHintLength = 30,
-				-- 				completion = {
-				-- 					enableServerSideFuzzyMatch = true,
-				-- 				},
-				-- 			},
-				-- 		},
-				-- 		typescript = {
-				-- 			updateImportsOnFileMove = { enabled = "always" },
-				-- 			suggest = {
-				-- 				completeFunctionCalls = true,
-				-- 			},
-				-- 			inlayHints = {
-				-- 				enumMemberValues = { enabled = true },
-				-- 				functionLikeReturnTypes = { enabled = true },
-				-- 				parameterNames = { enabled = "literals" },
-				-- 				parameterTypes = { enabled = true },
-				-- 				propertyDeclarationTypes = { enabled = true },
-				-- 				variableTypes = { enabled = false },
-				-- 			},
-				-- 		},
-				-- 	},
-				-- },
 				["html-lsp"] = {},
 				cssls = {
 					settings = {
@@ -221,17 +225,6 @@ return {
 							validate = true,
 							lint = {
 								unknownAtRules = "ignore",
-							},
-						},
-					},
-				},
-				lua_ls = {
-					settings = {
-						Lua = {
-							workspace = { checkThirdParty = false },
-							telemetry = { enable = false },
-							diagnostics = {
-								disable = { "missing-fields" },
 							},
 						},
 					},
@@ -253,6 +246,8 @@ return {
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 			require("mason-lspconfig").setup({
+                automatic_enable = true,
+				ensure_installed = {},
 				automatic_installation = false,
 				handlers = {
 					function(server_name)

@@ -5,6 +5,7 @@ o.relativenumber = true -- Enable relative line numbering from cursor position
 o.cursorline = true
 o.tabstop = 4 --  Number of spaces per tab character
 o.shiftwidth = 4 -- When set to 0, shiftwidth will automatically match tabstop
+o.smarttab = true
 o.expandtab = true -- Converts tab to spaces
 o.autoindent = true
 o.smartindent = true -- Smart indentation
@@ -19,8 +20,13 @@ o.signcolumn = "yes" -- Always shows the sign column to the left of the line num
 o.sidescrolloff = 8 -- Keep 8 columns of context to the left and right of the cursor
 o.swapfile = false
 o.colorcolumn = "80"
-o.cmdheight = 1
+o.cmdheight = 0
+
 o.foldenable = false -- Disable folding
+o.foldlevel = 1000000
+o.foldmethod = "indent"
+o.foldmethod = "expr"
+o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 o.tabline = "%t"
 vim.g.tabline_separator = " "
@@ -37,44 +43,29 @@ o.undolevels = 1000
 o.updatetime = 50 -- Faster completion
 -- vim.o.textwidth = 80
 
--- vim.diagnostic.config({
--- 	virtual_lines = {
--- 		current_line = true,
--- 		format = function(diagnostic)
--- 			local source = diagnostic.source and ("[" .. diagnostic.source .. "] ") or ""
--- 			return string.format("%s%s", source, diagnostic.message)
--- 		end,
--- 	},
--- 	virtual_text = {
--- 		hl_mode = "combine",
--- 		current_line = false,
--- 		spacing = 2,
--- 		source = "if_many", -- Shows source when multiple servers provide diagnostics
--- 		prefix = "", -- You can change this to any symbol you prefer
--- 		format = function(diagnostic)
--- 			local source = diagnostic.source and ("[" .. diagnostic.source .. "] ") or ""
--- 			return string.format("%s%s", source, diagnostic.message)
--- 		end,
--- 	},
--- 	underline = true,
--- })
--- vim.diagnostic.set = (function(orig)
--- 	return function(namespace, bufnr, diagnostics, opts)
--- 		for _, v in ipairs(diagnostics) do
--- 			v.col = v.col or 0
--- 		end
--- 		return orig(namespace, bufnr, diagnostics, opts)
--- 	end
--- end)(vim.diagnostic.set)
+vim.diagnostic.config({
+	-- virtual_lines = {
+	-- 	-- current_line = true,
+	-- 	format = function(diagnostic)
+	-- 		local source = diagnostic.source and ("[" .. diagnostic.source .. "] ") or ""
+	-- 		return string.format("%s%s", source, diagnostic.message)
+	-- 	end,
+	-- },
+	virtual_text = {
+		-- current_line = true,
+		spacing = 2,
+		-- source = "if_many", -- Shows source when multiple servers provide diagnostics
+		-- prefix = "", -- You can change this to any symbol you prefer
+		format = function(diagnostic)
+			local source = diagnostic.source and ("[" .. diagnostic.source .. "] ") or ""
+			return string.format("%s%s", source, diagnostic.message)
+		end,
+	},
+	underline = true,
+})
 
 o.numberwidth = 2
 o.signcolumn = "yes:1"
 o.statuscolumn = "%l%s"
-
--- Undercurl
-
--- -- Enable spell check
--- o.spell = true
--- o.spelllang = { "en_us" }
 
 vim.opt.synmaxcol = 6000 -- default is 3000
