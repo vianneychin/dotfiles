@@ -1,9 +1,11 @@
+-- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
 		vim.highlight.on_yank()
 	end,
 })
 
+-- Go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
 	callback = function()
 		local mark = vim.api.nvim_buf_get_mark(0, '"')
@@ -15,22 +17,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	desc = "go to last loc when opening a buffer",
 })
 
-vim.api.nvim_create_augroup("DisableAutoFormatForSCSS", { clear = true })
--- Create an autocmd for SCSS files
-vim.api.nvim_create_autocmd("FileType", {
-	group = "DisableAutoFormatForSCSS",
-	pattern = "scss",
-	callback = function()
-		-- Disable automatic formatting
-		vim.opt_local.formatoptions:remove("t")
-	end,
-})
-
-------------------------------------------------
---
--- Formatter
---
-------------------------------------------------
 -- Default to formatter disabled
 vim.g.disable_autoformat = true -- Global variable to disable formatting by default
 vim.b.disable_autoformat = true -- Buffer-local variable to disable formatting by default
@@ -59,22 +45,9 @@ vim.api.nvim_create_user_command("EnableFormatter", function()
 end, {
 	desc = "Re-enable autoformat-on-save",
 })
-------------------------------------------------
---
--- END Formatter
---
-------------------------------------------------
 
-------------------------------------------------
-
---
--- Quickfix
---
-------------------------------------------------
+-- Remove items from quickfix list
 local custom_group = vim.api.nvim_create_augroup("custom", { clear = true })
--- Remove items from quickfix list.
--- `dd` to delete in Normal
--- `d` to delete Visual selection
 local function delete_qf_items()
 	local mode = vim.api.nvim_get_mode()["mode"]
 	local start_idx
@@ -132,12 +105,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	desc = "Quickfix tweaks",
 })
 
-------------------------------------------------
---
--- END Quickfix
---
-------------------------------------------------
-
 -- Add '$' to iskeyword for PHP files
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "php",
@@ -146,6 +113,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- Set LSP folding if client supports it
 vim.api.nvim_create_autocmd("LspAttach", {
 	desc = "User: Set LSP folding if client supports it",
 	callback = function(ctx)
@@ -157,6 +125,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
+-- Auto hide/show cmdline when not recording macros and other related stuff
 vim.api.nvim_create_autocmd({ "RecordingEnter" }, {
 	callback = function()
 		vim.opt.cmdheight = 1
@@ -167,3 +136,21 @@ vim.api.nvim_create_autocmd({ "RecordingLeave" }, {
 		vim.opt.cmdheight = 0
 	end,
 })
+
+-- Open trouble when opening quickfix or loclist
+vim.api.nvim_create_autocmd("BufRead", {
+	callback = function(ev)
+		if vim.bo[ev.buf].buftype == "quickfix" then
+			vim.schedule(function()
+				vim.cmd("cclose")
+				vim.cmd("Trouble qflist open")
+			end)
+		elseif vim.bo[ev.buf].buftype == "loclist" then
+			vim.schedule(function()
+				vim.cmd("lclose")
+				vim.cmd("Trouble loclist open")
+			end)
+		end
+	end,
+})
+

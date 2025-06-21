@@ -126,11 +126,20 @@ return {
 					end
 				end,
 			})
+
 			local get_intelephense_license = function()
-				local f = assert(io.open(os.getenv("HOME") .. "/intelephense/licence.txt", "rb"))
+				local file_path = os.getenv("HOME") .. "/intelephense/licence.txt"
+				local f = io.open(file_path, "rb")
+				if not f then
+					print("Failed to open Intelephense license file")
+					return ""
+				end
+
 				local content = f:read("*a")
 				f:close()
-				return string.gsub(content, "%s+", "")
+
+				local license = string.gsub(content, "%s+", "")
+				return license
 			end
 
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
@@ -139,11 +148,7 @@ return {
 				-- cspell = {},
 				-- See `:help lspconfig-all`
 				-- ["php-cs-fixer"] = {},
-				intelephense = {
-					init_options = {
-						licenceKey = get_intelephense_license(),
-					},
-				},
+				intelephense = {},
 				["blade-formatter"] = {
 					filetypes = { "blade" },
 				},
@@ -234,8 +239,6 @@ return {
 			--  You can press `g?` for help in this menu.
 			require("mason").setup()
 
-			-- You can add other tools here that you want Mason to install
-			-- for you, so that they are available from within Neovim.
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua",
@@ -246,19 +249,30 @@ return {
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 			require("mason-lspconfig").setup({
-                automatic_enable = true,
+				automatic_enable = true,
 				ensure_installed = {},
 				automatic_installation = false,
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for ts_ls)
 						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 						require("lspconfig")[server_name].setup(server)
 					end,
 				},
+			})
+			local lspconfig = require("lspconfig")
+			lspconfig.intelephense.setup({
+				capabilities = capabilities,
+				init_options = {
+					licenceKey = get_intelephense_license(),
+				},
+				on_attach = function(client, bufnr)
+					vim.notify("Intelephense attached with license")
+					-- You can check if the license is active here
+					if client.config.init_options and client.config.init_options.licenceKey then
+						vim.notify("License key length: " .. #client.config.init_options.licenceKey)
+					end
+				end,
 			})
 		end,
 	},

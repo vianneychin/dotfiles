@@ -1,12 +1,24 @@
 return {
 	{
 		"saghen/blink.cmp",
+		optional = true,
 		lazy = false, -- lazy loading handled internally
 		version = "v0.*",
 		---
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		opts = {
+
+			sources = {
+				providers = {
+					path = {
+						-- Disable blink.cmmp where path sources triggered by "/" interfere with CopilotChat commands
+						enabled = function()
+							return vim.bo.filetype ~= "companion"
+						end,
+					},
+				},
+			},
 			appearance = {
 				use_nvim_cmp_as_default = false,
 				nerd_font_variant = "mono",
@@ -20,7 +32,7 @@ return {
 				},
 				documentation = {
 					auto_show = true,
-					auto_show_delay_ms = 50,
+					auto_show_delay_ms = 100,
 					window = {
 						border = "rounded",
 					},

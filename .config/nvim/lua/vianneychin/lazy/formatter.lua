@@ -22,7 +22,7 @@ return {
 		opts = {
 			-- Define your formatters
 			formatters_by_ft = {
-				php = { "php-cs-fixer", "pint" },
+				php = { "pint" },
 				lua = { "stylua", "trim_whitespace" },
 				python = { "isort", "black", "trim_whitespace" },
 				javascript = { "prettierd", "prettier", "trim_whitespace", stop_after_first = true },

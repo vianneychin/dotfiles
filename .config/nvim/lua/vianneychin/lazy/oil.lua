@@ -7,6 +7,8 @@ return {
 	-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
 	lazy = false,
 	config = function()
+		vim.g.loaded_netrw = 1
+		vim.g.loaded_netrwPlugin = 1
 		vim.keymap.set("n", "<leader>e", function()
 			if pcall(require, "oil") then
 				require("oil").open()

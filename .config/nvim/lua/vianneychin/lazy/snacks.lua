@@ -7,22 +7,31 @@ local function search_files()
 		formatters = {
 			file = { filename_first = true },
 		},
+		filter = {
+			cwd = true,
+		},
 		layout = { preview = false },
 	}
-	if current_buf:match("copilot%-chat") then
-		-- if current_buf:match("CodeCompanion") then
-		local copilot_win = vim.api.nvim_get_current_win()
+
+	-- Check if we're in a CodeCompanion buffer
+	if vim.bo.filetype == "codecompanion" then
+		local codecompanion_win = vim.api.nvim_get_current_win()
 		opts.confirm = function(picker, item)
 			picker:close()
-			vim.api.nvim_set_current_win(copilot_win)
+			vim.api.nvim_set_current_win(codecompanion_win)
 			if item then
 				local file_path = item.text or item.file
 				if file_path then
 					-- Split by spaces and use only the last part (the desired path)
 					local parts = vim.split(file_path, " ", { plain = true })
 					local chosen = parts[#parts]
-					-- Insert the chosen file path followed by two new (empty) lines.
-					vim.api.nvim_put({ "#file:" .. chosen, "", "" }, "", true, true)
+
+					-- Use the /file slash command for CodeCompanion
+					-- Insert at current cursor position
+					vim.api.nvim_put({ "/file " .. chosen }, "", true, true)
+
+					-- Alternatively, if you want to use the #buffer variable:
+					-- vim.api.nvim_put({ "#buffer " .. chosen }, "", true, true)
 				end
 			end
 		end
@@ -68,11 +77,11 @@ return {
 	---@type snacks.Config
 	opts = {
 		picker = {
-            exclude = {
-                "node_modules",
-                "vendor",
-                ".git"
-            },
+			exclude = {
+				"node_modules",
+				"vendor",
+				".git",
+			},
 			sources = {
 				grep = {
 					win = {

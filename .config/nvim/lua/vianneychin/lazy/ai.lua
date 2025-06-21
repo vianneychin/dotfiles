@@ -5,138 +5,104 @@ return {
 			require("supermaven-nvim").setup({})
 		end,
 	},
-	-- {
-	-- 	"olimorris/codecompanion.nvim",
-	-- 	opts = {},
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 	},
-	-- 	config = function()
-	-- 		require("codecompanion").setup({
-	-- 			adapters = {
-	-- 				anthropic = function()
-	-- 					return require("codecompanion.adapters").extend("anthropic", {
-	-- 						env = {
-	-- 							api_key = "",
-	-- 						},
-	-- 						-- env = {
-	-- 						-- 	api_key = "cmd:op read op://personal/OpenAI/credential --no-newline",
-	-- 						-- },
-	-- 					})
-	-- 				end,
-	-- 			},
-	-- 			strategies = {
-	-- 				chat = {
-	-- 					slash_commands = {
-	-- 						["buffer"] = {
-	-- 							opts = {
-	-- 								provider = "snacks",
-	-- 							},
-	-- 						},
-	-- 						["file"] = {
-	-- 							opts = {
-	-- 								provider = "snacks",
-	-- 							},
-	-- 						},
-	-- 					},
-	-- 					adapter = "anthropic",
-	-- 					keymaps = {
-	-- 						send = {
-	-- 							modes = { n = "<C-s>", i = "<C-s>" },
-	-- 						},
-	-- 						close = {
-	-- 							modes = {
-	-- 								n = "<leader>q",
-	-- 								i = "<leader>q",
-	-- 							},
-	-- 						},
-	-- 					},
-	-- 					-- variables = {
-	-- 					-- 	-- https://codecompanion.olimorris.dev/configuration/chat-buffer.html#variables
-	-- 					-- 	["harpoon"] = {
-	-- 					-- 		callback = function()
-	-- 					-- 			return "TODO: Give all my harpoon files"
-	-- 					-- 		end,
-	-- 					-- 		description = "Use all my harpoon files as context",
-	-- 					-- 		opts = {
-	-- 					-- 			contains_code = true,
-	-- 					-- 		},
-	-- 					-- 	},
-	-- 					-- },
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 		vim.api.nvim_set_keymap(
-	-- 			"n",
-	-- 			"<leader>cc",
-	-- 			"<cmd>CodeCompanionChat Toggle<cr>",
-	-- 			{ noremap = true, silent = true }
-	-- 		)
-	-- 		-- vim.api.nvim_set_keymap("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
-	-- 		-- vim.api.nvim_set_keymap(
-	-- 		-- 	{ "n", "v" },
-	-- 		-- 	"<C-a>",
-	-- 		-- 	"<cmd>CodeCompanionActions<cr>",
-	-- 		-- 	{ noremap = true, silent = true }
-	-- 		-- )
-	-- 	end,
-	-- },
-
 	{
-		"CopilotC-Nvim/CopilotChat.nvim",
+		"olimorris/codecompanion.nvim",
+		opts = {},
 		dependencies = {
-			-- { "github/copilot.vim" }, -- only enable temporarily to authenticate
-			{ "nvim-lua/plenary.nvim", branch = "master" },
-		},
-		build = "make tiktoken", -- Only on MacOS or Linux
-		keys = {
-			{
-				"<leader>cc",
-				":CopilotChatToggle<CR>",
-				mode = { "n", "x" },
-				desc = "CopilotChat",
-			},
+			{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+			{ "nvim-lua/plenary.nvim" },
+			{ "saghen/blink.cmp", lazy = false, version = "*" },
 		},
 		config = function()
-			require("CopilotChat").setup({
-				model = "claude-3.5-sonnet",
-				highlight_headers = false,
-				separator = "---",
-				error_header = "> [!ERROR] Error",
-				window = {
-					width = 0.33,
+			require("codecompanion").setup({
+				adapters = {
+					anthropic = function()
+						local get_anthropic_api_key = function()
+							local file_path = os.getenv("HOME") .. "/anthropic/key.txt"
+							local f = io.open(file_path, "rb")
+							if not f then
+								print("Failed to open Anthropic API key file")
+								return ""
+							end
+
+							local content = f:read("*a")
+							f:close()
+
+							local api_key = string.gsub(content, "%s+", "")
+							return api_key
+						end
+						return require("codecompanion.adapters").extend("anthropic", {
+							env = {
+								api_key = get_anthropic_api_key(),
+							},
+						})
+					end,
 				},
-				selection = require("CopilotChat.select").buffer,
-				mappings = {
-					close = {
-						normal = "q",
-						insert = "<C-q>",
-					},
-					submit_prompt = {
-						normal = "<C-s>",
-						insert = "<C-s>",
+				strategies = {
+					chat = {
+						variables = {
+							["buffer"] = {
+								opts = {
+									default_params = "pin",
+								},
+							},
+						},
+						slash_commands = {
+							["file"] = {
+								keymaps = {
+									modes = {
+										i = "<C-b>",
+										n = { "<leader>p", "gb" },
+									},
+								},
+								opts = {
+									provider = "snacks",
+								},
+							},
+						},
+						adapter = "anthropic",
+						keymaps = {
+							send = {
+								modes = { n = "<C-s>", i = "<C-s>" },
+							},
+							clear = {
+								modes = {
+									n = "<C-l>",
+								},
+								description = "Clear the chat buffer",
+							},
+							close = {
+								modes = {
+									n = "<leader>q",
+									i = "<leader>q",
+								},
+							},
+						},
 					},
 				},
 			})
-			vim.keymap.set("n", "<leader>cq", function()
-				local input = vim.fn.input("Quick Chat: ")
-				if input ~= "" then
-					require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
-				end
-			end)
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>cc",
+				"<cmd>CodeCompanionChat Toggle<cr>",
+				{ noremap = true, silent = true }
+			)
 		end,
 	},
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
-		---@module 'render-markdown'
-		---@type render.md.UserConfig
-		opts = {},
-		config = function()
-			require("render-markdown").setup({
-				-- file_types = { "markdown", "copilot-chat", "codecompanion", "todo" },
-			})
-		end,
+		ft = { "markdown", "codecompanion" },
+	},
+	{
+		"HakonHarnes/img-clip.nvim",
+		opts = {
+			filetypes = {
+				codecompanion = {
+					prompt_for_file_name = false,
+					template = "[Image]($FILE_PATH)",
+					use_absolute_path = true,
+				},
+			},
+		},
 	},
 }

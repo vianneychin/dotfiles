@@ -15,9 +15,9 @@ o.undofile = true -- Enables persistent undo history even after closing nvim
 o.hlsearch = true -- Disables highlightning of search results
 o.incsearch = true -- Enables incremental search which highlights matches as you type
 o.termguicolors = true -- The good color
-o.scrolloff = 8 -- Keeps at least 8 lines of context above and below the cursor when jumping
+o.scrolloff = 15 -- Keeps at least 8 lines of context above and below the cursor when jumping
 o.signcolumn = "yes" -- Always shows the sign column to the left of the line numbers
-o.sidescrolloff = 8 -- Keep 8 columns of context to the left and right of the cursor
+o.sidescrolloff = 20 -- Keep 8 columns of context to the left and right of the cursor
 o.swapfile = false
 o.colorcolumn = "80"
 o.cmdheight = 0
@@ -52,7 +52,7 @@ vim.diagnostic.config({
 	-- 	end,
 	-- },
 	virtual_text = {
-		-- current_line = true,
+		current_line = true,
 		spacing = 2,
 		-- source = "if_many", -- Shows source when multiple servers provide diagnostics
 		-- prefix = "", -- You can change this to any symbol you prefer

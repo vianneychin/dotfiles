@@ -8,6 +8,7 @@ return {
 			"lazy",
 			"qf", -- quickfix
 			"copilot-chat",
+			"codecompanion",
 			"harpoon",
 		}
 
@@ -21,7 +22,7 @@ return {
 				-- If there are splits, just close the current window
 				vim.cmd("q")
 			elseif
-                -- Handle special file types
+				-- Handle special file types
 				vim.api.nvim_win_get_config(win).relative ~= "" or vim.tbl_contains(special_filetypes, current_ft)
 			then
 				vim.cmd("bdelete!") -- Force close special windows
@@ -39,12 +40,13 @@ return {
 				-- If there are splits, just close the current window
 				vim.cmd("q")
 			elseif
-                -- Handle special file types
+				-- Handle special file types
 				vim.api.nvim_win_get_config(win).relative ~= "" or vim.tbl_contains(special_filetypes, current_ft)
 			then
 				vim.cmd("bdelete!") -- Force close special windows
 			else
 				miniRemove.delete()
+				-- vim.cmd("bd") -- Just close the window, keep the buffer
 			end
 		end, { silent = true })
 	end,

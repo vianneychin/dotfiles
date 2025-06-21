@@ -101,8 +101,7 @@ vim.keymap.set("n", "<leader>Q", function()
 	vim.cmd("qa!")
 end, { silent = true, desc = "Force quit" })
 
--- Swap Tab and Escape
--- vim.keymap.set({ "n", "v" }, "<Tab>", "<Esc>", { noremap = true })
--- vim.keymap.set({ "n", "v" }, "<Esc>", "<Tab>", { noremap = true })
--- vim.keymap.set({ "i", "c" }, "<Tab>", "<Esc>", { noremap = true })
--- vim.keymap.set({ "i", "c" }, "<Esc>", "<Tab>", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<C-k>", "<cmd>Treewalker Up<cr>zz", { silent = true })
+vim.keymap.set({ "n", "v" }, "<C-j>", "<cmd>Treewalker Down<cr>zz", { silent = true })
+vim.keymap.set({ "n", "v" }, "<C-h>", "<cmd>Treewalker Left<cr>zz", { silent = true })
+vim.keymap.set({ "n", "v" }, "<C-l>", "<cmd>Treewalker Right<cr>zz", { silent = true })

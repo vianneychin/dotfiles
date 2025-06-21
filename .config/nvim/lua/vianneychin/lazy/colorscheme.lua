@@ -1,13 +1,4 @@
 return {
-	-- {
-	-- 	"folke/tokyonight.nvim",
-	-- 	lazy = false,
-	-- 	priority = 1000,
-	-- 	opts = {},
-	-- 	config = function()
-	-- 		vim.cmd.colorscheme("tokyonight-night")
-	-- 	end,
-	-- },
 	{
 		"catppuccin/nvim",
 		priority = 1000,
@@ -44,6 +35,8 @@ return {
 			colors = {
 				palette = {
 					sumiInk0 = "#1F1F28",
+					peachRed = "#957FB8", -- change red to baby violet
+					waveRed = "#d98bd6", -- change red to baby pink
 				},
 				theme = {
 					all = {
