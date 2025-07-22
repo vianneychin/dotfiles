@@ -1,0 +1,3 @@
+# Exclude Claude directories except settings.json
+.claude/
+!.claude/settings.json
