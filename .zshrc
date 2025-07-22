@@ -101,7 +101,7 @@ function pushdotfiles() {
     dotfiles add ~/.config/ghostty;
     dotfiles add ~/.claude/settings.json;
     dotfiles commit -m "(Auto message) Update dotfiles";
-    dotfiles push origin main;
+    dotfiles push origin main --force;
     echo "\033[32mSuccessfully pushed dotfiles.\033[0m"
 }
 
