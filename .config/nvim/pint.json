@@ -1,0 +1,32 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "phpdoc_trim_consecutive_blank_line_separation": false,
+        "phpdoc_no_empty_return": false,
+        "phpdoc_no_package": false,
+        "phpdoc_no_useless_inheritdoc": false,
+        "phpdoc_separation": false,
+        "phpdoc_single_line_var_spacing": false,
+        "phpdoc_summary": false,
+        "phpdoc_to_comment": false,
+        "phpdoc_trim": true,
+        "phpdoc_types": true,
+        "phpdoc_var_without_name": false,
+        "no_superfluous_phpdoc_tags": false,
+        "no_empty_phpdoc": false,
+        "general_phpdoc_tag_rename": false,
+        "phpdoc_tag_type": false,
+        "phpdoc_order": true,
+        "not_operator_with_successor_space": false,
+        "binary_operator_spaces": {
+            "operators": {
+                "=>": "align"
+            }
+        },
+        "method_chaining_indentation": false,
+        "phpdoc_align": false,
+        "align_multiline_comment": false,
+        "single_line_comment_style": false,
+        "multiline_comment_opening_closing": false
+    }
+}

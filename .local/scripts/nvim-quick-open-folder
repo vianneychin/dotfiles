@@ -1,14 +1,10 @@
 #!/usr/bin/env bash
-
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/projects ~/projects/personal ~/projects/work/wdl ~/projects/work/wdl ~/projects/study ~/projects/laradock-projects ~/projects/work ~/.local ~/.config/ ~/ -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(fd . ~/projects ~/projects/personal ~/projects/work/wdl ~/projects/work ~/.local ~/.config ~/ --min-depth 1 --max-depth 1 --type d --hidden | fzf)
 fi
-
 if [[ -z $selected ]]; then
-    return 0
+    exit 0
 fi
-
 cd "$selected" || exit 1
-

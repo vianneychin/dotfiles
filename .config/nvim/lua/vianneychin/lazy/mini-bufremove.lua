@@ -36,6 +36,13 @@ return {
 			local current_ft = vim.bo[buf].filetype
 			local wins_in_tab = vim.fn.winnr("$")
 
+			-- Check if we're in a Trouble buffer
+			local bufname = vim.api.nvim_buf_get_name(buf)
+			if current_ft == "trouble" or string.match(bufname, "Trouble") then
+				vim.cmd("Trouble toggle")
+				return
+			end
+
 			if wins_in_tab > 1 then
 				-- If there are splits, just close the current window
 				vim.cmd("q")

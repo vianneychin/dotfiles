@@ -68,7 +68,9 @@ return {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-context",
-		opts = {},
+		opts = {
+            multiline_threshold = 10
+        },
 		config = function(opts)
 			vim.api.nvim_set_hl(0, "TreesitterContext", { underline = false })
 			vim.api.nvim_set_hl(0, "TreesitterContextBottom", { underline = false })

@@ -51,12 +51,24 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # ALIASES
 # ---------------------------------------------------------------------------------------------
 # Simplify commands for efficiency and convenience.
+alias grep='rg --hidden'
+
+# Makes Claude code 14x faster
+# https://machinedreams.blog/posts/tips-to-make-claude-code-work-faster/
+alias find='fd'
+alias ls='eza'
+alias cat='bat'
+alias sed='sd'
+alias du='dust'
+alias top='btm'
+alias ps='procs'
+
 alias g='git'
 alias hosts='sudo nvim /private/etc/hosts'
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 alias c="clear"
-alias vim="nvim" # xd
-alias vi="nvim" # xd
+alias vim="nvim"
+alias vi="nvim"
 
 alias ld-up="(cd ~/Projects/laradock;docker-compose up -d nginx mysql redis)"
 alias ld-down="(cd ~/Projects/laradock;docker-compose down)"
@@ -87,6 +99,7 @@ function pushdotfiles() {
     dotfiles add -u;
     dotfiles add ~/.config/nvim;
     dotfiles add ~/.config/ghostty;
+    dotfiles add ~/.claude;
     dotfiles commit -m "(Auto message) Update dotfiles";
     dotfiles push origin main;
     echo "\033[32mSuccessfully pushed dotfiles.\033[0m"
@@ -176,3 +189,4 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+alias ld-ssh="(cd ~/Projects/laradock;docker-compose exec workspace bash -c \"cd /var/www/work && exec bash\")"

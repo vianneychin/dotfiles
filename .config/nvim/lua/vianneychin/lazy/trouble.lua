@@ -1,6 +1,16 @@
 return {
 	"folke/trouble.nvim",
 	opts = {
+		icons = {
+			indent = {
+				middle = " ",
+				last = " ",
+				top = " ",
+				ws = "│  ",
+			},
+		},
+		restore = true,
+		focus = true,
 		modes = {
 			cascade = {
 				mode = "diagnostics", -- inherit from diagnostics mode
@@ -14,6 +24,18 @@ return {
 					end, items)
 				end,
 			},
+			diagnostics = {
+				groups = {
+					{ "filename", format = "{file_icon} {basename:Title} {count}" },
+				},
+			},
+		},
+		throttle = {
+			refresh = 20, -- fetches new data when needed
+			update = 10, -- updates the window
+			render = 10, -- renders the window
+			follow = 10, -- follows the current item
+			preview = { ms = 100, debounce = true }, -- shows the preview for the current item
 		},
 	},
 	cmd = "Trouble",

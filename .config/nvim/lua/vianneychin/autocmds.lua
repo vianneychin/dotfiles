@@ -138,19 +138,31 @@ vim.api.nvim_create_autocmd({ "RecordingLeave" }, {
 })
 
 -- Open trouble when opening quickfix or loclist
-vim.api.nvim_create_autocmd("BufRead", {
-	callback = function(ev)
-		if vim.bo[ev.buf].buftype == "quickfix" then
-			vim.schedule(function()
-				vim.cmd("cclose")
-				vim.cmd("Trouble qflist open")
-			end)
-		elseif vim.bo[ev.buf].buftype == "loclist" then
-			vim.schedule(function()
-				vim.cmd("lclose")
-				vim.cmd("Trouble loclist open")
-			end)
-		end
+-- vim.api.nvim_create_autocmd("BufRead", {
+-- 	callback = function(ev)
+-- 		if vim.bo[ev.buf].buftype == "quickfix" then
+-- 			vim.schedule(function()
+-- 				vim.cmd("cclose")
+-- 				vim.cmd("Trouble qflist open")
+-- 			end)
+-- 		elseif vim.bo[ev.buf].buftype == "loclist" then
+-- 			vim.schedule(function()
+-- 				vim.cmd("lclose")
+-- 				vim.cmd("Trouble loclist open")
+-- 			end)
+-- 		end
+-- 	end,
+-- })
+
+-- Show statusline only on focused window
+vim.api.nvim_create_autocmd("WinLeave", {
+	callback = function()
+		vim.wo.statusline = " "
 	end,
 })
 
+vim.api.nvim_create_autocmd("WinEnter", {
+	callback = function()
+		vim.wo.statusline = ""
+	end,
+})

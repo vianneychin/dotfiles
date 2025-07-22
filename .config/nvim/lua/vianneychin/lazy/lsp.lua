@@ -14,6 +14,7 @@ return {
 		},
 
 		config = function()
+            vim.lsp.enable('laravel_ls')
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 				callback = function(event)
@@ -36,29 +37,81 @@ return {
 					vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", {})
 					vim.keymap.set("n", "gd", function()
 						-- Get list of locations
-						vim.lsp.buf.definition({
-							on_list = function(options)
-								-- Filter out ide_helper files
-								if options and options.items then
-									local filtered_items = vim.tbl_filter(function(item)
-										return not string.match(item.filename or "", "ide_helper")
-									end, options.items)
-
-									options.items = filtered_items
-									vim.fn.setqflist({}, " ", options)
-
-									if #filtered_items == 1 then
-										-- If only one location, jump to it directly
-										vim.cmd("cfirst | normal! zz")
-									elseif #filtered_items > 1 then
-										-- If multiple locations, show quickfix list
-										vim.cmd("copen | normal! zz")
-									end
-								end
-							end,
-						})
+						vim.lsp.buf.definition()
 					end, { buffer = event.buf })
-					vim.api.nvim_set_keymap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", {})
+					vim.keymap.set("n", "ga", function()
+						-- Use custom PHP handler for PHP files, default for others
+						if vim.bo.filetype == "php" then
+							local params = vim.lsp.util.make_range_params()
+							params.context = { diagnostics = vim.lsp.diagnostic.get_line_diagnostics() }
+
+							vim.lsp.buf_request(0, "textDocument/codeAction", params, function(err, result, ctx, config)
+								if err or not result then
+									return
+								end
+
+								-- Sort actions - codebase imports first, vendor imports middle, PHPDoc at bottom
+								table.sort(result, function(a, b)
+									local a_title = a.title or ""
+									local b_title = b.title or ""
+
+									-- Check if it's a PHPDoc action
+									local a_is_doc = string.match(a_title, "PHPDoc")
+										or string.match(a_title, "Add.*doc")
+										or string.match(a_title, "Generate.*doc")
+									local b_is_doc = string.match(b_title, "PHPDoc")
+										or string.match(b_title, "Add.*doc")
+										or string.match(b_title, "Generate.*doc")
+
+									-- PHPDoc actions go to bottom
+									if a_is_doc and not b_is_doc then
+										return false
+									elseif b_is_doc and not a_is_doc then
+										return true
+									elseif a_is_doc and b_is_doc then
+										return false
+									end
+
+									-- Check if it's a vendor import (illuminate, symfony, etc.)
+									local a_is_vendor = string.match(a_title, "Illuminate\\")
+										or string.match(a_title, "Symfony\\")
+										or string.match(a_title, "Laravel\\")
+									local b_is_vendor = string.match(b_title, "Illuminate\\")
+										or string.match(b_title, "Symfony\\")
+										or string.match(b_title, "Laravel\\")
+
+									-- Prioritize non-vendor (codebase) imports over vendor imports
+									if not a_is_vendor and b_is_vendor then
+										return true
+									elseif a_is_vendor and not b_is_vendor then
+										return false
+									end
+
+									return false
+								end)
+								local filtered_actions = result
+
+								if #filtered_actions == 0 then
+									vim.notify("No code actions available")
+									return
+								end
+
+								vim.ui.select(filtered_actions, {
+									prompt = "Code actions:",
+									format_item = function(action)
+										return action.title
+									end,
+								}, function(action)
+									if action then
+										vim.lsp.buf.execute_command(action.command or action)
+									end
+								end)
+							end)
+						else
+							-- Use default code action for non-PHP files
+							vim.lsp.buf.code_action()
+						end
+					end, { buffer = event.buf })
 
 					-- vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.rename()<CR>", {})
 					vim.keymap.set("n", "gr", function()
@@ -148,7 +201,20 @@ return {
 				-- cspell = {},
 				-- See `:help lspconfig-all`
 				-- ["php-cs-fixer"] = {},
-				intelephense = {},
+				intelephense = {
+					init_options = {
+						licenceKey = get_intelephense_license(),
+					},
+					settings = {
+						intelephense = {},
+					},
+					on_attach = function(client, bufnr)
+						vim.notify("Intelephense attached with license")
+						if client.config.init_options and client.config.init_options.licenceKey then
+							vim.notify("License key length: " .. #client.config.init_options.licenceKey)
+						end
+					end,
+				},
 				["blade-formatter"] = {
 					filetypes = { "blade" },
 				},
@@ -199,24 +265,6 @@ return {
 						"blade",
 					},
 				},
-				tailwindcss = {
-					filetypes = {
-						"html",
-						"css",
-						"scss",
-						"javascript",
-						"javascriptreact",
-						"typescript",
-						"typescriptreact",
-						"vue",
-						"blade",
-					},
-					init_options = {
-						userLanguages = {
-							blade = "html",
-						},
-					},
-				},
 				["html-lsp"] = {},
 				cssls = {
 					settings = {
@@ -259,20 +307,6 @@ return {
 						require("lspconfig")[server_name].setup(server)
 					end,
 				},
-			})
-			local lspconfig = require("lspconfig")
-			lspconfig.intelephense.setup({
-				capabilities = capabilities,
-				init_options = {
-					licenceKey = get_intelephense_license(),
-				},
-				on_attach = function(client, bufnr)
-					vim.notify("Intelephense attached with license")
-					-- You can check if the license is active here
-					if client.config.init_options and client.config.init_options.licenceKey then
-						vim.notify("License key length: " .. #client.config.init_options.licenceKey)
-					end
-				end,
 			})
 		end,
 	},

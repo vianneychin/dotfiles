@@ -31,10 +31,10 @@ selection-foreground = c8c093
 macos-titlebar-style = hidden
 # background = 14141c
 window-colorspace = display-p3
-gtk-adwaita = true
 
 quick-terminal-animation-duration = 0
 adjust-underline-thickness = -1
 
-# custom-shader = ./shaders/mnoise.glsl
-# custom-shader-animation = always
+desktop-notifications = true
+app-notifications = true
+enable_kitty_graphics = true

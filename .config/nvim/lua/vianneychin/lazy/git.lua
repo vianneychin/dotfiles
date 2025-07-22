@@ -1,10 +1,12 @@
 return {
 	{
 		"sindrets/diffview.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
+			local actions = require("diffview.actions")
 			require("diffview").setup({
+                use_icons = true,
 				file_panel = {
-					-- Set listing_style to "list" (the alternative is "tree")
 					listing_style = "list",
 				},
 			})
@@ -25,8 +27,6 @@ return {
 					vim.cmd("DiffviewClose")
 				end
 			end)
-
-			-- TODO: Make a keybind that will go to file, but close diff view and open the file
 		end,
 	},
 	{

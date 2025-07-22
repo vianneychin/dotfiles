@@ -12,30 +12,6 @@ local function search_files()
 		},
 		layout = { preview = false },
 	}
-
-	-- Check if we're in a CodeCompanion buffer
-	if vim.bo.filetype == "codecompanion" then
-		local codecompanion_win = vim.api.nvim_get_current_win()
-		opts.confirm = function(picker, item)
-			picker:close()
-			vim.api.nvim_set_current_win(codecompanion_win)
-			if item then
-				local file_path = item.text or item.file
-				if file_path then
-					-- Split by spaces and use only the last part (the desired path)
-					local parts = vim.split(file_path, " ", { plain = true })
-					local chosen = parts[#parts]
-
-					-- Use the /file slash command for CodeCompanion
-					-- Insert at current cursor position
-					vim.api.nvim_put({ "/file " .. chosen }, "", true, true)
-
-					-- Alternatively, if you want to use the #buffer variable:
-					-- vim.api.nvim_put({ "#buffer " .. chosen }, "", true, true)
-				end
-			end
-		end
-	end
 	Snacks.picker.smart(opts)
 end
 
@@ -77,6 +53,23 @@ return {
 	---@type snacks.Config
 	opts = {
 		picker = {
+			win = {
+				input = {
+					keys = {
+						["<Up>"] = { "history_back", mode = { "i", "n" } },
+						["<Down>"] = { "history_forward", mode = { "i", "n" } },
+					},
+				},
+			},
+			actions = {
+				toggle_cwd = function(p)
+					local root = LazyVim.root({ buf = p.input.filter.current_buf, normalize = true })
+					local cwd = vim.fs.normalize((vim.uv or vim.loop).cwd() or ".")
+					local current = p:cwd()
+					p:set_cwd(current == root and cwd or root)
+					p:find()
+				end,
+			},
 			exclude = {
 				"node_modules",
 				"vendor",
@@ -155,22 +148,8 @@ return {
 
 		image = {
 			enabled = false,
+            SNACKS_GHOSTTY = true
 		},
-
-		-- indent = {
-		-- 	animate = {
-		-- 		enabled = false,
-		-- 	},
-		-- 	indent = {
-		-- 		hl = "SnacksIndent7",
-		-- 		only_scope = true,
-		-- 		only_current = true,
-		-- 	},
-		-- 	enabled = true,
-		-- 	chunk = {
-		-- 		enabled = false,
-		-- 	},
-		-- },
 	},
 	keys = {
 		-- Start Snacks.picker config

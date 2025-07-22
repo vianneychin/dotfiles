@@ -22,7 +22,8 @@ return {
 		opts = {
 			-- Define your formatters
 			formatters_by_ft = {
-				php = { "pint" },
+				json = { "prettierd", "prettier", "trim_whitespace", stop_after_first = true },
+				php = { "pint" }, -- Use LSP formatting for PHP (Intelephense)
 				lua = { "stylua", "trim_whitespace" },
 				python = { "isort", "black", "trim_whitespace" },
 				javascript = { "prettierd", "prettier", "trim_whitespace", stop_after_first = true },
@@ -35,22 +36,19 @@ return {
 				["*"] = { "trim_whitespace" },
 			},
 
-			default_format_opts = {
-				lsp_format = "fallback",
-			},
-
 			format_on_save = {
 				timeout_ms = 250,
 			},
 
 			formatters = {
-				shfmt = {
-					prepend_args = { "-i", "2" },
+				pint = {
+					prepend_args = {
+						"--config=" .. vim.fn.stdpath("config") .. "/pint.json",
+					},
 				},
 			},
 		},
 		init = function()
-			-- If you want the formatexpr, here is the place to set it
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 		end,
 	},

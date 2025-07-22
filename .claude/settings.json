@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Task",
+      "Bash(gh pr:*)",
+      "Bash(git log:*)",
+      "Bash(git commit:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(npm install:*)",
+      "Bash(rm:*)",
+      "Glob",
+      "Find",
+      "Grep",
+      "Rg",
+      "LS",
+      "Read",
+      "Edit",
+      "MultiEdit",
+      "Write",
+      "WebFetch",
+      "WebSearch"
+    ]
+  },
+  "includeCoAuthoredBy": false
+}

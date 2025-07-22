@@ -1,26 +1,31 @@
 #!/usr/bin/env bash
-
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/Projects ~/Projects/personal ~/projects/work/wdl ~/Projects/study ~/Projects/laradock-projects ~/Projects/work ~/.local ~/.config/ ~/ -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(
+        {
+            fd . ~/projects --min-depth 1 --max-depth 1 --type d --hidden 2>/dev/null
+            fd . ~/projects/personal --min-depth 1 --max-depth 1 --type d --hidden 2>/dev/null
+            fd . ~/projects/work/wdl --min-depth 1 --max-depth 1 --type d --hidden 2>/dev/null
+            fd . ~/projects/study --min-depth 1 --max-depth 1 --type d --hidden 2>/dev/null
+            fd . ~/projects/laradock-projects --min-depth 1 --max-depth 1 --type d --hidden 2>/dev/null
+            fd . ~/projects/work --min-depth 1 --max-depth 1 --type d --hidden 2>/dev/null
+            fd . ~/.local --min-depth 1 --max-depth 1 --type d --hidden 2>/dev/null
+            fd . ~/.config --min-depth 1 --max-depth 1 --type d --hidden 2>/dev/null
+            fd . ~/ --min-depth 1 --max-depth 1 --type d --hidden 2>/dev/null
+        } | sort -u | fzf
+    )
 fi
-
 if [[ -z $selected ]]; then
-    return 0
+    exit 0
 fi
-
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
-
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -s $selected_name -c $selected
-    return 0
+    exit 0
 fi
-
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
     tmux new-session -ds $selected_name -c $selected
 fi
-
 tmux switch-client -t $selected_name
-
