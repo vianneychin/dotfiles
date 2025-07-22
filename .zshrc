@@ -99,7 +99,7 @@ function pushdotfiles() {
     dotfiles add -u;
     dotfiles add ~/.config/nvim;
     dotfiles add ~/.config/ghostty;
-    dotfiles add ~/.claude;
+    dotfiles add ~/.claude/settings.json;
     dotfiles commit -m "(Auto message) Update dotfiles";
     dotfiles push origin main;
     echo "\033[32mSuccessfully pushed dotfiles.\033[0m"

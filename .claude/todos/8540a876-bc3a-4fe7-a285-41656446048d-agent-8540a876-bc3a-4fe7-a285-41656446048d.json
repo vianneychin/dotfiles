@@ -1,0 +1,14 @@
+[
+  {
+    "content": "Remove shell-snapshots and statsig directories from git history",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Force push cleaned history to remote",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  }
+]
